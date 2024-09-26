@@ -11,6 +11,7 @@ import { Timer } from "@/components/Timer";
 import { updateTime } from "@/utils/functions";
 import { FocusAnimation } from "@/components/FocusAnimation";
 import { PlayButton } from "@/components/PlayButton";
+import { useSummaryStore } from "@/store/summaryStore";
 
 const defaultTime: Time = {
   hours: 0,
@@ -21,6 +22,7 @@ const defaultTime: Time = {
 export default function TimerScreen() {
   const { navigate, replace } = useRouter();
   const { timerState, setTimerState } = useFocusStore((state) => state);
+  const addSummaryItem = useSummaryStore((state) => state.addSummaryItem);
   const [time, setTime] = useState<Time>(defaultTime);
 
   const handleReset = () => {
@@ -40,10 +42,10 @@ export default function TimerScreen() {
   const handleStop = async () => {
     setTimerState(TimerState.IDLE);
     setTime(defaultTime);
-    // await addSummaryItem({
-    //   title: focusSubject,
-    //   time,
-    // });
+    addSummaryItem({
+      title: "Focus",
+      time,
+    });
     replace("/summary");
   };
 

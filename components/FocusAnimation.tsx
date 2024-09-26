@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   useSharedValue,
@@ -31,7 +31,7 @@ export const FocusAnimation = () => {
     backgroundColor: animatedColor.value,
   }));
 
-  const startAnimation = () => {
+  const startAnimation = useCallback(() => {
     rotation.value = withRepeat(withTiming(1, { duration, easing }), -1);
     scale.value = withRepeat(
       withSequence(
@@ -51,13 +51,13 @@ export const FocusAnimation = () => {
       -1,
       true
     );
-  };
+  }, [animatedColor, rotation, scale]);
 
-  const stopAnimation = () => {
+  const stopAnimation = useCallback(() => {
     cancelAnimation(rotation);
     cancelAnimation(scale);
     cancelAnimation(animatedColor);
-  };
+  }, [animatedColor, rotation, scale]);
 
   useEffect(() => {
     startAnimation();
@@ -65,7 +65,7 @@ export const FocusAnimation = () => {
     return () => {
       stopAnimation();
     };
-  }, []);
+  }, [startAnimation, stopAnimation]);
 
   return <Animated.View style={[styles.box, animatedStyle]} />;
 };
