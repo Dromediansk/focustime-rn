@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
   introText: {
     fontSize: theme.fonts.headlineMedium.fontSize,
     color: theme.colors.onTertiaryContainer,
-    fontFamily: "Play_400Regular",
   },
   focusSubjectContainer: {
     gap: theme.spacing.md,
@@ -90,6 +89,5 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: 200,
-    fontFamily: "Play_400Regular",
   },
 });

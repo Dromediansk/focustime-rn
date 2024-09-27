@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
   timerText: {
     fontSize: 60,
     color: theme.colors?.primary,
-    fontFamily: "Play_700Bold",
+    fontFamily: theme.fonts.bold.fontFamily,
   },
 });
