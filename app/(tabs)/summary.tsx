@@ -32,7 +32,7 @@ export default function SummaryScreen() {
       ]}
       style={styles.container}
     >
-      <Text style={styles.header}>Your focus today:</Text>
+      <Text style={styles.header}>Great job!{"\n"}Here is your summary:</Text>
       <FlatList
         data={summary}
         renderItem={({ item }) => <Item item={item} />}
@@ -54,10 +54,11 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: theme.fonts.headlineMedium.fontSize,
-    fontWeight: "bold",
+    fontFamily: "Play_400Regular",
     marginTop: theme.spacing.lg,
     marginBottom: theme.spacing.xl,
     color: theme.colors?.onTertiaryContainer,
+    textAlign: "center",
   },
   itemContainer: {
     flexDirection: "row",
@@ -66,10 +67,12 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: theme.fonts.headlineSmall.fontSize,
+    fontFamily: "Play_400Regular",
     color: theme.colors?.onPrimaryContainer,
   },
   itemTime: {
     fontSize: theme.fonts.headlineSmall.fontSize,
+    fontFamily: "Play_400Regular",
     color: theme.colors?.onPrimaryContainer,
   },
   flatList: {

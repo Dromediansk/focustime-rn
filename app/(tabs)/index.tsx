@@ -6,8 +6,19 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useFocusStore } from "@/store/focusStore";
 import { TimerState } from "@/utils/types";
 import { PressableButton } from "@/components/PressableButton";
+import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
+import { Play_400Regular, Play_700Bold } from "@expo-google-fonts/play";
+import { useEffect } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [loaded, error] = useFonts({
+    Play_400Regular,
+    Play_700Bold,
+  });
+
   const { navigate } = useRouter();
   const { setTimerState, focusSubject, setFocusSubject } = useFocusStore(
     (state) => state
@@ -17,6 +28,16 @@ export default function App() {
     setTimerState(TimerState.RUNNING);
     navigate("/timer");
   };
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
+  }
 
   return (
     <PaperProvider theme={theme}>
@@ -31,16 +52,10 @@ export default function App() {
         style={styles.container}
       >
         <View style={styles.focusSubjectContainer}>
-          <Text
-            style={{
-              fontSize: 25,
-              color: theme.colors?.primary,
-            }}
-          >
-            Keep your focus on:
-          </Text>
+          <Text style={styles.introText}>Keep your focus on:</Text>
           <TextInput
             style={styles.inputContainer}
+            contentStyle={{ fontFamily: "Play_400Regular" }}
             mode="flat"
             value={focusSubject}
             onChange={(e) => setFocusSubject(e.nativeEvent.text)}
@@ -64,11 +79,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
   },
+  introText: {
+    fontSize: theme.fonts.headlineMedium.fontSize,
+    color: theme.colors.onTertiaryContainer,
+    fontFamily: "Play_400Regular",
+  },
   focusSubjectContainer: {
     gap: theme.spacing.md,
     alignItems: "center",
   },
   inputContainer: {
     width: 200,
+    fontFamily: "Play_400Regular",
   },
 });
