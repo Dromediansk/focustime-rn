@@ -1,4 +1,7 @@
+import { DefaultTheme } from "react-native-paper";
+
 export const theme = {
+  ...DefaultTheme,
   colors: {
     primary: "rgb(99, 211, 255)",
     onPrimary: "rgb(0, 53, 69)",
@@ -40,5 +43,14 @@ export const theme = {
     surfaceDisabled: "rgba(225, 226, 228, 0.12)",
     onSurfaceDisabled: "rgba(225, 226, 228, 0.38)",
     backdrop: "rgba(42, 50, 53, 0.4)",
+  },
+  spacing: {
+    xs: 2,
+    sm: 4,
+    md: 8,
+    lg: 16,
+    xl: 32,
+    xxl: 64,
+    xxxl: 128,
   },
 };

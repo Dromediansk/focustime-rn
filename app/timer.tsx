@@ -83,9 +83,7 @@ export default function TimerScreen() {
           <Text style={styles.focusText}>Focusing...</Text>
         )}
       </View>
-      <View style={styles.controlsContainer}>
-        <PlayButton timerState={timerState} onPress={handlePressPlay} />
-      </View>
+      <PlayButton timerState={timerState} onPress={handlePressPlay} />
     </LinearGradient>
   );
 }
@@ -105,15 +103,11 @@ const styles = StyleSheet.create({
     height: 100,
   },
   focusText: {
-    fontSize: 30,
+    fontSize: theme.fonts.headlineMedium.fontSize,
     color: theme.colors?.primary,
   },
   introText: {
-    fontSize: 30,
+    fontSize: theme.fonts.headlineMedium.fontSize,
     color: theme.colors?.tertiary,
-  },
-  controlsContainer: {
-    alignItems: "center",
-    gap: 20,
   },
 });

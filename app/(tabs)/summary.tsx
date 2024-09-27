@@ -3,15 +3,10 @@ import { theme } from "@/utils/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSummaryStore } from "@/store/summaryStore";
 import { SummaryItem } from "@/utils/types";
-import { FC } from "react";
 import { formatTime } from "@/utils/functions";
 import { Text } from "react-native-paper";
 
-type ItemProps = {
-  item: SummaryItem;
-};
-
-const Item: FC<ItemProps> = ({ item }) => {
+const Item = ({ item }: { item: SummaryItem }) => {
   return (
     <View
       key={`${item.title}-${item.time.hours}:${item.time.minutes}:${item.time.seconds}`}
@@ -55,26 +50,31 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 50,
+    paddingTop: theme.spacing.xxl,
   },
   header: {
-    fontSize: 24,
+    fontSize: theme.fonts.headlineMedium.fontSize,
     fontWeight: "bold",
-    marginTop: 16,
-    marginBottom: 32,
-    color: theme.colors?.tertiary,
+    marginTop: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
+    color: theme.colors?.onTertiaryContainer,
   },
   itemContainer: {
     flexDirection: "row",
-    marginBottom: 16,
+    marginBottom: theme.spacing.lg,
+    justifyContent: "space-between",
   },
   itemTitle: {
-    fontSize: 32,
+    fontSize: theme.fonts.headlineSmall.fontSize,
+    color: theme.colors?.onPrimaryContainer,
   },
   itemTime: {
-    fontSize: 32,
+    fontSize: theme.fonts.headlineSmall.fontSize,
+    color: theme.colors?.onPrimaryContainer,
   },
   flatList: {
     flex: 1,
+    width: "100%",
+    padding: theme.spacing.lg,
   },
 });
