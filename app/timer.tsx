@@ -21,12 +21,13 @@ const defaultTime: Time = {
 
 export default function TimerScreen() {
   const { navigate, replace } = useRouter();
-  const { timerState, setTimerState } = useFocusStore((state) => state);
+  const { timerState, setTimerState, focusSubject, setFocusSubject } =
+    useFocusStore((state) => state);
   const addSummaryItem = useSummaryStore((state) => state.addSummaryItem);
   const [time, setTime] = useState<Time>(defaultTime);
 
   const handleReset = () => {
-    // setFocusSubject("");
+    setFocusSubject("");
     navigate("/");
   };
 
@@ -43,10 +44,11 @@ export default function TimerScreen() {
     setTimerState(TimerState.IDLE);
     setTime(defaultTime);
     addSummaryItem({
-      title: "Focus",
+      title: focusSubject,
       time,
     });
     replace("/summary");
+    setFocusSubject("");
   };
 
   return (
@@ -80,7 +82,7 @@ export default function TimerScreen() {
           <Text style={styles.introText}>Press play to continue focus</Text>
         )}
         {timerState === TimerState.RUNNING && (
-          <Text style={styles.focusText}>Focusing...</Text>
+          <Text style={styles.focusText}>{focusSubject}...</Text>
         )}
       </View>
       <PlayButton timerState={timerState} onPress={handlePressPlay} />
@@ -95,9 +97,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   stopAndResetContainer: {
+    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
-    width: "80%",
+    justifyContent: "space-around",
   },
   animationContainer: {
     height: 100,

@@ -1,7 +1,8 @@
 import { FC } from "react";
-import { TouchableOpacity } from "react-native";
-import { IconButton, useTheme } from "react-native-paper";
+import { Pressable } from "react-native";
+import { IconButton } from "react-native-paper";
 import { TimerState } from "@/utils/types";
+import { theme } from "@/utils/theme";
 
 type PlayButtonProps = {
   timerState: TimerState;
@@ -18,16 +19,15 @@ const getIcon = (timerState: TimerState) => {
 };
 
 export const PlayButton: FC<PlayButtonProps> = ({ timerState, onPress }) => {
-  const theme = useTheme();
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Pressable onPress={onPress}>
       <IconButton
         mode="outlined"
-        containerColor={theme.colors.primaryContainer}
-        iconColor={theme.colors.onPrimaryContainer}
+        containerColor={theme.colors.tertiaryContainer}
+        iconColor={theme.colors.onTertiaryContainer}
         icon={getIcon(timerState)}
         size={60}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };
