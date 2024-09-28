@@ -33,19 +33,27 @@ export default function SummaryScreen() {
       ]}
       style={styles.container}
     >
-      <Text style={styles.header}>
-        {summary.length === 0
-          ? "No items found"
-          : `Great job!{"\n"}Here is your summary:`}
-      </Text>
-      <FlatList
-        data={summary}
-        renderItem={({ item }) => <Item item={item} />}
-        keyExtractor={(item) =>
-          `${item.title}-${item.time.hours}:${item.time.minutes}:${item.time.seconds}`
-        }
-        style={styles.flatList}
-      />
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Summary</Text>
+      </View>
+      {summary.length === 0 ? (
+        <View style={styles.noDataContainer}>
+          <Text style={styles.noDataText}>
+            No items found. {"\n"}
+            Keep pushing forward, your efforts will pay off.
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={summary}
+          renderItem={({ item }) => <Item item={item} />}
+          keyExtractor={(item) =>
+            `${item.title}-${item.time.hours}:${item.time.minutes}:${item.time.seconds}`
+          }
+          style={styles.flatList}
+        />
+      )}
+
       <View style={styles.clearButtonContainer}>
         <PressableButton
           buttonStyle={styles.clearButton}
@@ -67,12 +75,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: theme.spacing.xxl,
   },
+  headerContainer: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: theme.colors?.onPrimaryContainer,
+    width: "100%",
+  },
   header: {
     fontSize: theme.fonts.headlineMedium.fontSize,
-    marginTop: theme.spacing.lg,
-    marginBottom: theme.spacing.xl,
-    color: theme.colors?.onTertiaryContainer,
+    marginBottom: theme.spacing.md,
+    color: theme.colors?.onPrimaryContainer,
     textAlign: "center",
+    justifyContent: "center",
+  },
+  noDataContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  noDataText: {
+    fontSize: theme.fonts.headlineSmall.fontSize,
+    color: theme.colors?.onSecondaryContainer,
+    textAlign: "center",
+    marginHorizontal: theme.spacing.lg,
   },
   itemContainer: {
     flexDirection: "row",
@@ -97,10 +120,10 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xl,
   },
   clearButton: {
-    backgroundColor: theme.colors.error,
-    color: theme.colors.onError,
+    backgroundColor: theme.colors.secondaryContainer,
+    color: theme.colors.onSecondaryContainer,
   },
   clearButtonPressed: {
-    backgroundColor: theme.colors.errorContainer,
+    backgroundColor: theme.colors.secondary,
   },
 });

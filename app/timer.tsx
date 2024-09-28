@@ -79,7 +79,9 @@ export default function TimerScreen() {
       </View>
       <View>
         {timerState === TimerState.PAUSED && (
-          <Text style={styles.introText}>Press play to continue focus</Text>
+          <Text style={styles.continueText}>
+            Press play and keep the momentum going!
+          </Text>
         )}
         {timerState === TimerState.RUNNING && (
           <Text style={styles.focusText}>{focusSubject}...</Text>
@@ -102,14 +104,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   animationContainer: {
-    height: 100,
+    height: 120,
+    minHeight: 120,
   },
   focusText: {
     fontSize: theme.fonts.headlineMedium.fontSize,
     color: theme.colors?.primary,
   },
-  introText: {
+  continueText: {
     fontSize: theme.fonts.headlineMedium.fontSize,
-    color: theme.colors?.tertiary,
+    color: theme.colors?.secondary,
+    textAlign: "center",
   },
 });

@@ -1,3 +1,4 @@
+import { theme } from "@/utils/theme";
 import React, { FC } from "react";
 import { TouchableOpacity } from "react-native";
 import { Button, MD2Colors } from "react-native-paper";
@@ -13,8 +14,8 @@ export const StopButton: FC<StopButtonProps> = ({ onPress, disabled }) => {
       <Button
         icon="stop"
         mode="elevated"
-        buttonColor={MD2Colors.red300}
-        textColor={MD2Colors.white}
+        buttonColor={theme.colors.tertiaryContainer}
+        textColor={theme.colors.onTertiaryContainer}
         onPress={onPress}
         disabled={disabled}
       >

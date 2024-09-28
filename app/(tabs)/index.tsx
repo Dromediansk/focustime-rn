@@ -31,13 +31,14 @@ export default function App() {
         style={styles.container}
       >
         <View style={styles.focusSubjectContainer}>
-          <Text style={styles.introText}>Keep your focus on:</Text>
+          <Text style={styles.introText}>Focus your mind on:</Text>
           <TextInput
             style={styles.inputContainer}
             mode="flat"
             value={focusSubject}
             onChange={(e) => setFocusSubject(e.nativeEvent.text)}
-            placeholder="i.e. working"
+            placeholder="i.e. deep work, exercise or meditating"
+            placeholderTextColor={theme.colors?.onSurfaceDisabled}
           />
         </View>
 
@@ -57,13 +58,15 @@ const styles = StyleSheet.create({
   },
   introText: {
     fontSize: theme.fonts.headlineMedium.fontSize,
-    color: theme.colors.onTertiaryContainer,
+    color: theme.colors.onPrimaryContainer,
   },
   focusSubjectContainer: {
-    gap: theme.spacing.md,
+    gap: theme.spacing.lg,
+    width: "100%",
     alignItems: "center",
   },
   inputContainer: {
-    width: 200,
+    width: "80%",
+    backgroundColor: theme.colors?.onPrimary,
   },
 });

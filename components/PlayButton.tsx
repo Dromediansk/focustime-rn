@@ -23,8 +23,8 @@ export const PlayButton: FC<PlayButtonProps> = ({ timerState, onPress }) => {
     <Pressable onPress={onPress}>
       <IconButton
         mode="outlined"
-        containerColor={theme.colors.tertiaryContainer}
-        iconColor={theme.colors.onTertiaryContainer}
+        containerColor={theme.colors.primaryContainer}
+        iconColor={theme.colors.onPrimaryContainer}
         icon={getIcon(timerState)}
         size={60}
       />

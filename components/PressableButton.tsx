@@ -80,12 +80,12 @@ const styles = StyleSheet.create({
     borderRadius: theme.radius.button,
   },
   button: {
-    backgroundColor: theme.colors.tertiaryContainer,
-    color: theme.colors.onTertiaryContainer,
+    backgroundColor: theme.colors.primaryContainer,
+    color: theme.colors.onPrimaryContainer,
   },
   buttonPressed: {
-    backgroundColor: theme.colors.onTertiary,
-    color: theme.colors.tertiary,
+    backgroundColor: theme.colors.onPrimary,
+    color: theme.colors.primary,
   },
   buttonDisabled: {
     backgroundColor: theme.colors.surfaceDisabled,
