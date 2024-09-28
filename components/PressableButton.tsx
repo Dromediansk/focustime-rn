@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   },
   buttonDefaults: {
     borderRadius: theme.radius.button,
+    fontFamily: theme.fonts.play.fontFamily,
   },
   button: {
     backgroundColor: theme.colors.primaryContainer,

@@ -110,9 +110,11 @@ const styles = StyleSheet.create({
   focusText: {
     fontSize: theme.fonts.headlineMedium.fontSize,
     color: theme.colors?.primary,
+    fontFamily: theme.fonts.play.fontFamily,
   },
   continueText: {
     fontSize: theme.fonts.headlineMedium.fontSize,
+    fontFamily: theme.fonts.play.fontFamily,
     color: theme.colors?.secondary,
     textAlign: "center",
   },

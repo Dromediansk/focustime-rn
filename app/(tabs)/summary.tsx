@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: theme.fonts.headlineMedium.fontSize,
+    fontFamily: theme.fonts.play.fontFamily,
     marginBottom: theme.spacing.md,
     color: theme.colors?.onPrimaryContainer,
     textAlign: "center",
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
   },
   noDataText: {
     fontSize: theme.fonts.headlineSmall.fontSize,
+    fontFamily: theme.fonts.play.fontFamily,
     color: theme.colors?.onSecondaryContainer,
     textAlign: "center",
     marginHorizontal: theme.spacing.lg,
@@ -104,10 +106,12 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: theme.fonts.headlineSmall.fontSize,
+    fontFamily: theme.fonts.play.fontFamily,
     color: theme.colors?.onPrimaryContainer,
   },
   itemTime: {
     fontSize: theme.fonts.headlineSmall.fontSize,
+    fontFamily: theme.fonts.play.fontFamily,
     color: theme.colors?.onPrimaryContainer,
   },
   flatList: {

@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 
 export const theme = {
@@ -55,5 +56,21 @@ export const theme = {
   },
   radius: {
     button: 10,
+  },
+  fonts: {
+    ...DefaultTheme.fonts,
+    default: {
+      ...DefaultTheme.fonts.default,
+      fontFamily: Platform.select({
+        ios: "Play-Regular",
+        android: "Play_400Regular",
+      }),
+    },
+    play: {
+      fontFamily: Platform.select({
+        ios: "Play-Regular",
+        android: "Play_400Regular",
+      }),
+    },
   },
 };

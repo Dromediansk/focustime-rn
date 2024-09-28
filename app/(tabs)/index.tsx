@@ -34,6 +34,7 @@ export default function App() {
           <Text style={styles.introText}>Focus your mind on:</Text>
           <TextInput
             style={styles.inputContainer}
+            contentStyle={{ fontFamily: theme.fonts.play.fontFamily }}
             mode="flat"
             value={focusSubject}
             onChange={(e) => setFocusSubject(e.nativeEvent.text)}
