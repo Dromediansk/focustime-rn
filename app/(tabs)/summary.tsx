@@ -1,10 +1,11 @@
-import { StyleSheet, FlatList, View, Pressable } from "react-native";
+import { StyleSheet, FlatList, View } from "react-native";
 import { theme } from "@/utils/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSummaryStore } from "@/store/summaryStore";
 import { SummaryItem } from "@/utils/types";
 import { formatTime } from "@/utils/functions";
 import { Text } from "react-native-paper";
+import { PressableButton } from "@/components/PressableButton";
 
 const Item = ({ item }: { item: SummaryItem }) => {
   return (
@@ -32,7 +33,11 @@ export default function SummaryScreen() {
       ]}
       style={styles.container}
     >
-      <Text style={styles.header}>Great job!{"\n"}Here is your summary:</Text>
+      <Text style={styles.header}>
+        {summary.length === 0
+          ? "No items found"
+          : `Great job!{"\n"}Here is your summary:`}
+      </Text>
       <FlatList
         data={summary}
         renderItem={({ item }) => <Item item={item} />}
@@ -41,9 +46,16 @@ export default function SummaryScreen() {
         }
         style={styles.flatList}
       />
-      <Pressable onPress={clearSummary} style={styles.clearButton}>
-        <Text style={styles.clearButtonText}>Clear</Text>
-      </Pressable>
+      <View style={styles.clearButtonContainer}>
+        <PressableButton
+          buttonStyle={styles.clearButton}
+          buttonPressedStyle={styles.clearButtonPressed}
+          disabled={summary.length === 0}
+          onPress={clearSummary}
+        >
+          CLEAR
+        </PressableButton>
+      </View>
     </LinearGradient>
   );
 }
@@ -80,15 +92,15 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: theme.spacing.lg,
   },
-  clearButton: {
+  clearButtonContainer: {
     marginTop: theme.spacing.lg,
     marginBottom: theme.spacing.xl,
-    paddingHorizontal: theme.spacing.xl,
-    paddingVertical: theme.spacing.lg,
-    backgroundColor: theme.colors?.errorContainer,
-    borderRadius: theme.radius.button,
   },
-  clearButtonText: {
-    color: theme.colors.onErrorContainer,
+  clearButton: {
+    backgroundColor: theme.colors.error,
+    color: theme.colors.onError,
+  },
+  clearButtonPressed: {
+    backgroundColor: theme.colors.errorContainer,
   },
 });

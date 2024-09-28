@@ -14,7 +14,7 @@ type PressableButtonProps = {
   children: ReactNode;
   disabled?: boolean;
   buttonStyle?: ButtonStyle;
-  buttonPressedStyle?: ButtonStyle;
+  buttonPressedStyle?: ViewStyle;
   buttonDisabledStyle?: ButtonStyle;
   size?: keyof typeof theme.spacing;
 };
@@ -22,7 +22,7 @@ type PressableButtonProps = {
 export const PressableButton: FC<PressableButtonProps> = ({
   onPress,
   children,
-  disabled,
+  disabled = false,
   buttonStyle = styles.button,
   buttonPressedStyle = styles.buttonPressed,
   buttonDisabledStyle = styles.buttonDisabled,
