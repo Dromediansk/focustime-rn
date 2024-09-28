@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   focusText: {
     fontSize: theme.fonts.headlineMedium.fontSize,
     color: theme.colors?.primary,
-    fontFamily: "Play_700Bold",
   },
   introText: {
     fontSize: theme.fonts.headlineMedium.fontSize,

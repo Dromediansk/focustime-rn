@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View, Pressable } from "react-native";
 import { theme } from "@/utils/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSummaryStore } from "@/store/summaryStore";
@@ -19,7 +19,7 @@ const Item = ({ item }: { item: SummaryItem }) => {
 };
 
 export default function SummaryScreen() {
-  const summary = useSummaryStore((state) => state.summary);
+  const { summary, clearSummary } = useSummaryStore((state) => state);
 
   return (
     <LinearGradient
@@ -41,6 +41,9 @@ export default function SummaryScreen() {
         }
         style={styles.flatList}
       />
+      <Pressable onPress={clearSummary} style={styles.clearButton}>
+        <Text style={styles.clearButtonText}>Clear</Text>
+      </Pressable>
     </LinearGradient>
   );
 }
@@ -54,7 +57,6 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: theme.fonts.headlineMedium.fontSize,
-    fontFamily: "Play_400Regular",
     marginTop: theme.spacing.lg,
     marginBottom: theme.spacing.xl,
     color: theme.colors?.onTertiaryContainer,
@@ -67,17 +69,26 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: theme.fonts.headlineSmall.fontSize,
-    fontFamily: "Play_400Regular",
     color: theme.colors?.onPrimaryContainer,
   },
   itemTime: {
     fontSize: theme.fonts.headlineSmall.fontSize,
-    fontFamily: "Play_400Regular",
     color: theme.colors?.onPrimaryContainer,
   },
   flatList: {
     flex: 1,
     width: "100%",
     padding: theme.spacing.lg,
+  },
+  clearButton: {
+    marginTop: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
+    paddingHorizontal: theme.spacing.xl,
+    paddingVertical: theme.spacing.lg,
+    backgroundColor: theme.colors?.errorContainer,
+    borderRadius: theme.radius.button,
+  },
+  clearButtonText: {
+    color: theme.colors.onErrorContainer,
   },
 });

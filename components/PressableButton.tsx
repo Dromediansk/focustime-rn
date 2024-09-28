@@ -1,20 +1,40 @@
-import { FC } from "react";
-import { Platform, Pressable, StyleSheet } from "react-native";
+import { FC, ReactNode } from "react";
+import { Platform, Pressable, StyleSheet, ViewStyle } from "react-native";
 import { Text } from "react-native-paper";
 import * as Haptics from "expo-haptics";
 import { theme } from "@/utils/theme";
 
+type ButtonStyle = ViewStyle & {
+  color: string;
+  backgroundColor: string;
+};
+
 type PressableButtonProps = {
   onPress: () => void;
-  text: string;
+  children: ReactNode;
   disabled?: boolean;
+  buttonStyle?: ButtonStyle;
+  buttonPressedStyle?: ButtonStyle;
+  buttonDisabledStyle?: ButtonStyle;
+  size?: keyof typeof theme.spacing;
 };
 
 export const PressableButton: FC<PressableButtonProps> = ({
   onPress,
-  text,
+  children,
   disabled,
+  buttonStyle = styles.button,
+  buttonPressedStyle = styles.buttonPressed,
+  buttonDisabledStyle = styles.buttonDisabled,
+  size = "lg",
 }) => {
+  const paddingVertical = theme.spacing[size];
+  const paddingHorizontal = paddingVertical * 2;
+  const defaultStyles = [
+    styles.buttonDefaults,
+    { paddingHorizontal, paddingVertical },
+  ];
+
   const handlePress = () => {
     if (Platform.OS !== "web") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -28,23 +48,23 @@ export const PressableButton: FC<PressableButtonProps> = ({
       onPress={handlePress}
       style={({ pressed }) => {
         if (disabled) {
-          return [styles.button, styles.buttonDisabled];
+          return [defaultStyles, buttonDisabledStyle];
         }
         if (pressed) {
-          return [styles.button, styles.buttonPressed];
+          return [defaultStyles, buttonPressedStyle];
         }
-        return styles.button;
+        return [defaultStyles, buttonStyle];
       }}
     >
       <Text
-        style={{
-          ...styles.text,
-          color: disabled
-            ? theme.colors.onSurfaceDisabled
-            : theme.colors.onTertiaryContainer,
-        }}
+        style={[
+          styles.text,
+          disabled
+            ? { color: theme.colors.onSurfaceDisabled }
+            : { color: buttonStyle.color },
+        ]}
       >
-        {text}
+        {children}
       </Text>
     </Pressable>
   );
@@ -56,14 +76,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  buttonDefaults: {
+    borderRadius: theme.radius.button,
+  },
   button: {
-    paddingHorizontal: theme.spacing.xl,
-    paddingVertical: theme.spacing.lg,
-    borderRadius: 6,
     backgroundColor: theme.colors.tertiaryContainer,
+    color: theme.colors.onTertiaryContainer,
   },
   buttonPressed: {
     backgroundColor: theme.colors.onTertiary,
+    color: theme.colors.tertiary,
   },
   buttonDisabled: {
     backgroundColor: theme.colors.surfaceDisabled,

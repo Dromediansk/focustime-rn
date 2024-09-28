@@ -53,14 +53,7 @@ export const theme = {
     xxl: 64,
     xxxl: 128,
   },
-  fonts: {
-    ...DefaultTheme.fonts,
-    default: {
-      ...DefaultTheme.fonts.default,
-      fontFamily: "Play_400Regular",
-    },
-    bold: {
-      fontFamily: "Play_700Bold",
-    },
+  radius: {
+    button: 10,
   },
 };

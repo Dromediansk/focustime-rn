@@ -6,19 +6,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useFocusStore } from "@/store/focusStore";
 import { TimerState } from "@/utils/types";
 import { PressableButton } from "@/components/PressableButton";
-import * as SplashScreen from "expo-splash-screen";
-import { useFonts } from "expo-font";
-import { Play_400Regular, Play_700Bold } from "@expo-google-fonts/play";
-import { useEffect } from "react";
-
-SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [loaded, error] = useFonts({
-    Play_400Regular,
-    Play_700Bold,
-  });
-
   const { navigate } = useRouter();
   const { setTimerState, focusSubject, setFocusSubject } = useFocusStore(
     (state) => state
@@ -28,16 +17,6 @@ export default function App() {
     setTimerState(TimerState.RUNNING);
     navigate("/timer");
   };
-
-  useEffect(() => {
-    if (loaded || error) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded, error]);
-
-  if (!loaded && !error) {
-    return null;
-  }
 
   return (
     <PaperProvider theme={theme}>
@@ -55,7 +34,6 @@ export default function App() {
           <Text style={styles.introText}>Keep your focus on:</Text>
           <TextInput
             style={styles.inputContainer}
-            contentStyle={{ fontFamily: "Play_400Regular" }}
             mode="flat"
             value={focusSubject}
             onChange={(e) => setFocusSubject(e.nativeEvent.text)}
@@ -63,11 +41,9 @@ export default function App() {
           />
         </View>
 
-        <PressableButton
-          disabled={!!!focusSubject}
-          text="START"
-          onPress={handlePressStart}
-        />
+        <PressableButton disabled={!!!focusSubject} onPress={handlePressStart}>
+          START
+        </PressableButton>
       </LinearGradient>
     </PaperProvider>
   );
