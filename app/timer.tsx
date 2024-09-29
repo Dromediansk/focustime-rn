@@ -1,6 +1,5 @@
 import { Text, StyleSheet, View } from "react-native";
 import { theme } from "@/utils/theme";
-import { LinearGradient } from "expo-linear-gradient";
 import { useFocusStore } from "@/store/focusStore";
 import { Time, TimerState } from "@/utils/types";
 import { ResetButton } from "@/components/ResetButton";
@@ -12,6 +11,7 @@ import { updateTime } from "@/utils/functions";
 import { FocusAnimation } from "@/components/FocusAnimation";
 import { PlayButton } from "@/components/PlayButton";
 import { useSummaryStore } from "@/store/summaryStore";
+import { AppBackground } from "@/components/AppBackground";
 
 const defaultTime: Time = {
   hours: 0,
@@ -52,16 +52,7 @@ export default function TimerScreen() {
   };
 
   return (
-    <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      colors={[
-        theme.colors?.onTertiary,
-        theme.colors?.onSecondary,
-        theme.colors?.onPrimary,
-      ]}
-      style={styles.container}
-    >
+    <AppBackground style={styles.container}>
       <View style={styles.stopAndResetContainer}>
         <ResetButton onPress={handleReset} />
         <StopButton
@@ -88,14 +79,12 @@ export default function TimerScreen() {
         )}
       </View>
       <PlayButton timerState={timerState} onPress={handlePressPlay} />
-    </LinearGradient>
+    </AppBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
     justifyContent: "space-around",
   },
   stopAndResetContainer: {

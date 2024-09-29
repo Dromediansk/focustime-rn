@@ -1,11 +1,11 @@
 import { StyleSheet, FlatList, View } from "react-native";
 import { theme } from "@/utils/theme";
-import { LinearGradient } from "expo-linear-gradient";
 import { useSummaryStore } from "@/store/summaryStore";
 import { SummaryItem } from "@/utils/types";
 import { formatTime } from "@/utils/functions";
 import { Text } from "react-native-paper";
 import { PressableButton } from "@/components/PressableButton";
+import { AppBackground } from "@/components/AppBackground";
 
 const Item = ({ item }: { item: SummaryItem }) => {
   return (
@@ -23,16 +23,7 @@ export default function SummaryScreen() {
   const { summary, clearSummary } = useSummaryStore((state) => state);
 
   return (
-    <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      colors={[
-        theme.colors?.onTertiary,
-        theme.colors?.onSecondary,
-        theme.colors?.onPrimary,
-      ]}
-      style={styles.container}
-    >
+    <AppBackground style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Summary</Text>
       </View>
@@ -64,15 +55,13 @@ export default function SummaryScreen() {
           CLEAR
         </PressableButton>
       </View>
-    </LinearGradient>
+    </AppBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
-    alignItems: "center",
     paddingTop: theme.spacing.xxl,
   },
   headerContainer: {
