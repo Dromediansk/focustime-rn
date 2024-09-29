@@ -38,6 +38,12 @@
           ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2d686616-fb66-4821-bb07-f3ee8c31e9fb"
+      }
+    },
+    "owner": "dromediansk"
   }
 }
