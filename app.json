@@ -31,7 +31,11 @@
       [
         "expo-font",
         {
-          "fonts": ["node_modules/@expo-google-fonts/play/Play_400Regular.ttf"]
+          "fonts": [
+            "node_modules/@expo-google-fonts/play/Play_400Regular.ttf",
+            "node_modules/@expo-google-fonts/play/Play_700Bold.ttf",
+            "node_modules/@expo-google-fonts/syne-mono/SyneMono_400Regular.ttf"
+          ]
         }
       ]
     ]

@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { TouchableOpacity } from "react-native";
 import { Button, useTheme } from "react-native-paper";
+import Entypo from "@expo/vector-icons/Entypo";
 
 type ResetButtonProps = {
   onPress: () => void;
@@ -11,13 +12,15 @@ export const ResetButton: FC<ResetButtonProps> = ({ onPress }) => {
   return (
     <TouchableOpacity>
       <Button
-        icon="refresh"
+        icon={({ size, color }) => (
+          <Entypo name="back" size={size} color={color} />
+        )}
         buttonColor={theme.colors?.secondaryContainer}
         textColor={theme.colors?.onSecondaryContainer}
         mode="elevated"
         onPress={onPress}
       >
-        Reset
+        Go back
       </Button>
     </TouchableOpacity>
   );

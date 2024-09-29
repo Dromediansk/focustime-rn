@@ -20,9 +20,10 @@ export default function App() {
 
   return (
     <PaperProvider theme={theme}>
-      <AppBackground>
+      <AppBackground style={styles.container}>
+        <Text style={styles.appTitle}>FOCUSTIME</Text>
         <View style={styles.focusSubjectContainer}>
-          <Text style={styles.introText}>Focus your mind on:</Text>
+          <Text style={styles.introText}>What's your target?</Text>
           <TextInput
             style={styles.inputContainer}
             contentStyle={{ fontFamily: theme.fonts.play.fontFamily }}
@@ -33,7 +34,6 @@ export default function App() {
             placeholderTextColor={theme.colors?.onSurfaceDisabled}
           />
         </View>
-
         <PressableButton disabled={!!!focusSubject} onPress={handlePressStart}>
           START
         </PressableButton>
@@ -43,14 +43,24 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  introText: {
-    fontSize: theme.fonts.headlineMedium.fontSize,
+  appTitle: {
+    fontSize: theme.fonts.displayLarge.fontSize,
+    fontFamily: theme.fonts.syneMono.fontFamily,
     color: theme.colors.onPrimaryContainer,
+  },
+  introText: {
+    fontSize: theme.fonts.headlineSmall.fontSize,
+    color: theme.colors.onPrimaryContainer,
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-evenly",
   },
   focusSubjectContainer: {
     gap: theme.spacing.lg,
-    width: "100%",
     alignItems: "center",
+    width: "100%",
   },
   inputContainer: {
     width: "80%",

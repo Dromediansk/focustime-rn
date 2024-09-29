@@ -72,5 +72,17 @@ export const theme = {
         android: "Play_400Regular",
       }),
     },
+    play_bold: {
+      fontFamily: Platform.select({
+        ios: "Play-Bold",
+        android: "Play_700Bold",
+      }),
+    },
+    syneMono: {
+      fontFamily: Platform.select({
+        ios: "SyneMono-Regular",
+        android: "SyneMono_400Regular",
+      }),
+    },
   },
 };
