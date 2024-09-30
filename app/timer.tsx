@@ -5,7 +5,6 @@ import { Time, TimerState } from "@/utils/types";
 import { ResetButton } from "@/components/ResetButton";
 import { useRouter } from "expo-router";
 import { StopButton } from "@/components/StopButton";
-import { useState } from "react";
 import { Timer } from "@/components/Timer";
 import { updateTime } from "@/utils/functions";
 import { FocusAnimation } from "@/components/FocusAnimation";
@@ -21,17 +20,24 @@ const defaultTime: Time = {
 
 export default function TimerScreen() {
   const { navigate, replace } = useRouter();
-  const { timerState, setTimerState, focusSubject, setFocusSubject } =
-    useFocusStore((state) => state);
+  const {
+    timerState,
+    setTimerState,
+    focusSubject,
+    setFocusSubject,
+    time,
+    setTime,
+  } = useFocusStore((state) => state);
   const addSummaryItem = useSummaryStore((state) => state.addSummaryItem);
-  const [time, setTime] = useState<Time>(defaultTime);
 
   const handleReset = () => {
     setFocusSubject("");
+    setTime(defaultTime);
+    setTimerState(TimerState.IDLE);
     navigate("/");
   };
 
-  const handlePressPlay = () => {
+  const handlePressPlay = async () => {
     if (timerState === TimerState.RUNNING) {
       setTimerState(TimerState.PAUSED);
     }
@@ -63,7 +69,7 @@ export default function TimerScreen() {
       <Timer
         timerState={timerState}
         time={time}
-        onTimeUpdate={() => setTime(updateTime)}
+        onTimeUpdate={() => setTime(updateTime(time))}
       />
       <View style={styles.animationContainer}>
         {timerState === TimerState.RUNNING && <FocusAnimation />}
