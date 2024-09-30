@@ -7,24 +7,6 @@ export const formatTime = ({ hours, minutes, seconds }: Time) =>
     minutes
   )} : ${formatTimeFragment(seconds)}`;
 
-export const updateTime = (previousTime: Time): Time => {
-  const { hours, minutes, seconds } = previousTime;
-  let newSeconds = seconds + 1;
-  let newMinutes = minutes;
-  let newHours = hours;
-
-  if (newSeconds === 60) {
-    newSeconds = 0;
-    newMinutes = minutes + 1;
-  }
-  if (newMinutes === 60) {
-    newMinutes = 0;
-    newHours = hours + 1;
-  }
-
-  return { hours: newHours, minutes: newMinutes, seconds: newSeconds };
-};
-
 export const addTime = (defaultTime: Time, addedTime: Time): Time => {
   const { hours, minutes, seconds } = defaultTime;
   let newSeconds = seconds + addedTime.seconds;

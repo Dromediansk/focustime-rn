@@ -9,22 +9,44 @@ type FocusStore = {
   focusSubject: string;
   setFocusSubject: (subject: string) => void;
   time: Time;
-  setTime: (time: Time) => void;
+  clearTime: () => void;
+  increaseTime: () => void;
+};
+
+export const defaultTime: Time = {
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+};
+
+const increaseTime = (previousTime: Time) => {
+  const { hours, minutes, seconds } = previousTime;
+  let newSeconds = seconds + 1;
+  let newMinutes = minutes;
+  let newHours = hours;
+
+  if (newSeconds === 60) {
+    newSeconds = 0;
+    newMinutes = minutes + 1;
+  }
+  if (newMinutes === 60) {
+    newMinutes = 0;
+    newHours = hours + 1;
+  }
+
+  return { hours: newHours, minutes: newMinutes, seconds: newSeconds };
 };
 
 export const useFocusStore = create(
   persist<FocusStore>(
-    (set) => ({
+    (set, get) => ({
       timerState: TimerState.IDLE,
       setTimerState: (state) => set({ timerState: state }),
       focusSubject: "",
       setFocusSubject: (subject) => set({ focusSubject: subject }),
-      time: {
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      },
-      setTime: (time) => set({ time }),
+      time: defaultTime,
+      clearTime: () => set({ time: defaultTime }),
+      increaseTime: () => set({ time: increaseTime(get().time) }),
     }),
     {
       name: "focustime-focus-store",

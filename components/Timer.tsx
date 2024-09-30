@@ -1,21 +1,18 @@
+import { useFocusStore } from "@/store/focusStore";
 import { formatTime } from "@/utils/functions";
 import { theme } from "@/utils/theme";
-import { Time, TimerState } from "@/utils/types";
-import { FC, useEffect } from "react";
+import { TimerState } from "@/utils/types";
+import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-type TimerProps = {
-  timerState: TimerState;
-  time: Time;
-  onTimeUpdate: () => void;
-};
+export const Timer = () => {
+  const { time, increaseTime, timerState } = useFocusStore((state) => state);
 
-export const Timer: FC<TimerProps> = ({ timerState, time, onTimeUpdate }) => {
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
 
     if (timerState === TimerState.RUNNING) {
-      timer = setInterval(onTimeUpdate, 1000);
+      timer = setInterval(increaseTime, 1000);
     } else if (timerState === TimerState.PAUSED && timer) {
       clearInterval(timer);
     }
@@ -25,7 +22,7 @@ export const Timer: FC<TimerProps> = ({ timerState, time, onTimeUpdate }) => {
         clearInterval(timer);
       }
     };
-  }, [onTimeUpdate, timerState]);
+  }, [timerState]);
 
   return (
     <View>
