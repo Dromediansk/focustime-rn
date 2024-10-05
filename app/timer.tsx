@@ -1,7 +1,7 @@
 import { Text, StyleSheet, View } from "react-native";
 import { theme } from "@/utils/theme";
 import { useFocusStore } from "@/store/focusStore";
-import { TimerState } from "@/utils/types";
+import { Time, TimerState } from "@/utils/types";
 import { ResetButton } from "@/components/ResetButton";
 import { useRouter } from "expo-router";
 import { StopButton } from "@/components/StopButton";
@@ -10,22 +10,26 @@ import { FocusAnimation } from "@/components/FocusAnimation";
 import { PlayButton } from "@/components/PlayButton";
 import { useSummaryStore } from "@/store/summaryStore";
 import { AppBackground } from "@/components/AppBackground";
+import { useState } from "react";
+import { tickTime } from "@/utils/functions";
+
+const defaultTime: Time = {
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+};
 
 export default function TimerScreen() {
   const { navigate, replace } = useRouter();
-  const {
-    timerState,
-    setTimerState,
-    focusSubject,
-    setFocusSubject,
-    time,
-    clearTime,
-  } = useFocusStore((state) => state);
+  const { timerState, setTimerState, focusSubject, setFocusSubject } =
+    useFocusStore((state) => state);
   const addSummaryItem = useSummaryStore((state) => state.addSummaryItem);
+
+  const [time, setTime] = useState(defaultTime);
 
   const handleReset = () => {
     setFocusSubject("");
-    clearTime();
+    setTime(defaultTime);
     setTimerState(TimerState.IDLE);
     navigate("/");
   };
@@ -41,7 +45,7 @@ export default function TimerScreen() {
 
   const handleStop = async () => {
     setTimerState(TimerState.IDLE);
-    clearTime();
+    setTime(defaultTime);
     addSummaryItem({
       title: focusSubject,
       time,
@@ -59,7 +63,7 @@ export default function TimerScreen() {
           disabled={timerState === TimerState.IDLE}
         />
       </View>
-      <Timer />
+      <Timer time={time} onTimeTick={() => setTime(tickTime)} />
       <View style={styles.animationContainer}>
         {timerState === TimerState.RUNNING && <FocusAnimation />}
       </View>

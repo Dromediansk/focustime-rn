@@ -7,6 +7,7 @@ export const formatTime = ({ hours, minutes, seconds }: Time) =>
     minutes
   )} : ${formatTimeFragment(seconds)}`;
 
+// function to add two times together
 export const addTime = (defaultTime: Time, addedTime: Time): Time => {
   const { hours, minutes, seconds } = defaultTime;
   let newSeconds = seconds + addedTime.seconds;
@@ -20,6 +21,25 @@ export const addTime = (defaultTime: Time, addedTime: Time): Time => {
   if (newMinutes >= 60) {
     newMinutes -= 60;
     newHours += 1;
+  }
+
+  return { hours: newHours, minutes: newMinutes, seconds: newSeconds };
+};
+
+// function to increment time by 1 second
+export const tickTime = (previousTime: Time) => {
+  const { hours, minutes, seconds } = previousTime;
+  let newSeconds = seconds + 1;
+  let newMinutes = minutes;
+  let newHours = hours;
+
+  if (newSeconds === 60) {
+    newSeconds = 0;
+    newMinutes = minutes + 1;
+  }
+  if (newMinutes === 60) {
+    newMinutes = 0;
+    newHours = hours + 1;
   }
 
   return { hours: newHours, minutes: newMinutes, seconds: newSeconds };

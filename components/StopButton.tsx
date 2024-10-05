@@ -1,7 +1,7 @@
 import { theme } from "@/utils/theme";
 import React, { FC } from "react";
 import { TouchableOpacity } from "react-native";
-import { Button, MD2Colors } from "react-native-paper";
+import { Button } from "react-native-paper";
 
 type StopButtonProps = {
   onPress: () => void;
