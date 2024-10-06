@@ -8,6 +8,8 @@ type FocusStore = {
   setTimerState: (state: TimerState) => void;
   focusSubject: string;
   setFocusSubject: (subject: string) => void;
+  breakInterval: string;
+  setBreakInterval: (interval: string) => void;
 };
 
 export const useFocusStore = create(
@@ -17,6 +19,8 @@ export const useFocusStore = create(
       setTimerState: (state) => set({ timerState: state }),
       focusSubject: "",
       setFocusSubject: (subject) => set({ focusSubject: subject }),
+      breakInterval: "15",
+      setBreakInterval: (interval) => set({ breakInterval: interval }),
     }),
     {
       name: "focustime-focus-store",
