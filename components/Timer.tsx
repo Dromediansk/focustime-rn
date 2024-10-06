@@ -1,17 +1,42 @@
 import { useFocusStore } from "@/store/focusStore";
-import { formatTime } from "@/utils/functions";
+import { useTimestampStore } from "@/store/timestampStore";
+import { formatTime, setTimeFromBackground } from "@/utils/functions";
 import { theme } from "@/utils/theme";
 import { Time, TimerState } from "@/utils/types";
 import { FC, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { AppState, AppStateStatus, StyleSheet, Text, View } from "react-native";
 
 type TimerProps = {
   time: Time;
+  setTime: (time: Time) => void;
   onTimeTick: () => void;
 };
 
-export const Timer: FC<TimerProps> = ({ onTimeTick, time }) => {
+export const Timer: FC<TimerProps> = ({ onTimeTick, setTime, time }) => {
   const timerState = useFocusStore((state) => state.timerState);
+  const { setTimestamp } = useTimestampStore((state) => state);
+
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+      if (nextAppState === "background" && timerState === TimerState.RUNNING) {
+        setTimestamp(time);
+      } else if (
+        nextAppState === "active" &&
+        timerState === TimerState.RUNNING
+      ) {
+        setTimeFromBackground(time, setTime);
+      }
+    };
+
+    const subscription = AppState.addEventListener(
+      "change",
+      handleAppStateChange
+    );
+
+    return () => {
+      subscription.remove();
+    };
+  }, [setTime, setTimestamp, time, timerState]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -27,7 +52,7 @@ export const Timer: FC<TimerProps> = ({ onTimeTick, time }) => {
         clearInterval(timer);
       }
     };
-  }, [onTimeTick, timerState]);
+  }, [onTimeTick, setTime, timerState]);
 
   return (
     <View>

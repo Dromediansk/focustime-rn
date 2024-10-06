@@ -1,6 +1,13 @@
+import { useTimestampStore } from "@/store/timestampStore";
 import { Time } from "./types";
+import {
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds,
+} from "date-fns";
 
-const formatTimeFragment = (time: number) => time.toString().padStart(2, "0");
+export const formatTimeFragment = (time: number) =>
+  time.toString().padStart(2, "0");
 
 export const formatTime = ({ hours, minutes, seconds }: Time) =>
   `${formatTimeFragment(hours)} : ${formatTimeFragment(
@@ -51,4 +58,24 @@ export const formatDate = (date: Date) => {
   const year = date.getFullYear();
 
   return `${day}-${month}-${year}`;
+};
+
+export const setTimeFromBackground = (
+  time: Time,
+  setTime: (time: Time) => void
+) => {
+  const timestamp = useTimestampStore.getState().timestamp;
+  const now = new Date();
+
+  const hoursDiff = differenceInHours(now, new Date(timestamp[0]));
+  const minutesDiff = differenceInMinutes(now, new Date(timestamp[0]));
+  const secondsDiff = differenceInSeconds(now, new Date(timestamp[0]));
+
+  setTime(
+    addTime(time, {
+      hours: hoursDiff,
+      minutes: minutesDiff,
+      seconds: secondsDiff,
+    })
+  );
 };

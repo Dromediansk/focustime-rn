@@ -12,7 +12,7 @@ type FocusStore = {
 
 export const useFocusStore = create(
   persist<FocusStore>(
-    (set, get) => ({
+    (set) => ({
       timerState: TimerState.IDLE,
       setTimerState: (state) => set({ timerState: state }),
       focusSubject: "",

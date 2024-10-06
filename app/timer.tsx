@@ -27,10 +27,14 @@ export default function TimerScreen() {
 
   const [time, setTime] = useState(defaultTime);
 
-  const handleReset = () => {
+  const clearTimer = () => {
     setFocusSubject("");
     setTime(defaultTime);
     setTimerState(TimerState.IDLE);
+  };
+
+  const handleReset = () => {
+    clearTimer();
     navigate("/");
   };
 
@@ -44,14 +48,12 @@ export default function TimerScreen() {
   };
 
   const handleStop = async () => {
-    setTimerState(TimerState.IDLE);
-    setTime(defaultTime);
     addSummaryItem({
       title: focusSubject,
       time,
     });
+    clearTimer();
     replace("/summary");
-    setFocusSubject("");
   };
 
   return (
@@ -63,7 +65,11 @@ export default function TimerScreen() {
           disabled={timerState === TimerState.IDLE}
         />
       </View>
-      <Timer time={time} onTimeTick={() => setTime(tickTime)} />
+      <Timer
+        onTimeTick={() => setTime(tickTime)}
+        time={time}
+        setTime={setTime}
+      />
       <View style={styles.animationContainer}>
         {timerState === TimerState.RUNNING && <FocusAnimation />}
       </View>
