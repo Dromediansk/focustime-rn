@@ -6,6 +6,8 @@ import { useFocusStore } from "@/store/focusStore";
 import { TimerState } from "@/utils/types";
 import { PressableButton } from "@/components/PressableButton";
 import { AppBackground } from "@/components/AppBackground";
+import ScrollPicker from "react-native-wheel-scrollview-picker";
+import { BREAK_INTERVAL_OPTIONS } from "@/utils/constants";
 
 export default function App() {
   const { navigate } = useRouter();
@@ -39,18 +41,24 @@ export default function App() {
           />
           <View style={styles.breakContainer}>
             <Text style={styles.breakText}>Take a break every</Text>
-            <TextInput
-              style={styles.breakInput}
-              contentStyle={styles.breakInputContent}
-              mode="flat"
-              value={breakInterval}
-              keyboardType="numeric"
-              onChange={(e) => setBreakInterval(e.nativeEvent.text)}
-              placeholderTextColor={theme.colors?.onSurfaceDisabled}
-              underlineColor="transparent"
-              activeUnderlineColor={theme.colors.onPrimaryContainer}
-              maxLength={2}
-            />
+            <View style={styles.breakTextContainer}>
+              <ScrollPicker
+                dataSource={BREAK_INTERVAL_OPTIONS}
+                selectedIndex={BREAK_INTERVAL_OPTIONS.indexOf(breakInterval)}
+                onValueChange={(data) => {
+                  if (!data) {
+                    return;
+                  }
+                  setBreakInterval(data);
+                }}
+                wrapperHeight={60}
+                wrapperBackground="transparent"
+                activeItemTextStyle={{ color: theme.colors.onPrimaryContainer }}
+                itemTextStyle={{ color: theme.colors.surfaceDisabled }}
+                itemHeight={20}
+                highlightColor="transparent"
+              />
+            </View>
             <Text style={styles.breakText}>minutes</Text>
           </View>
         </View>
@@ -91,16 +99,10 @@ const styles = StyleSheet.create({
     gap: theme.spacing.md,
     alignItems: "center",
   },
-  breakInput: {
-    width: 25,
-    height: 25,
-    backgroundColor: "transparent",
-    paddingHorizontal: 4,
-    paddingVertical: 4,
-  },
-  breakInputContent: {
-    fontFamily: theme.fonts.play.fontFamily,
-    color: theme.colors.primary,
+  breakTextContainer: {
+    width: 20,
+    height: 60,
+    justifyContent: "center",
   },
   breakText: {
     fontSize: theme.fonts.bodyLarge.fontSize,

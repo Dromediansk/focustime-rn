@@ -21,14 +21,20 @@ const defaultTime: Time = {
 
 export default function TimerScreen() {
   const { navigate, replace } = useRouter();
-  const { timerState, setTimerState, focusSubject, setFocusSubject } =
-    useFocusStore((state) => state);
+  const {
+    timerState,
+    setTimerState,
+    focusSubject,
+    setFocusSubject,
+    setBreakInterval,
+  } = useFocusStore((state) => state);
   const addSummaryItem = useSummaryStore((state) => state.addSummaryItem);
 
   const [time, setTime] = useState(defaultTime);
 
   const clearTimer = () => {
     setFocusSubject("");
+    setBreakInterval("15");
     setTime(defaultTime);
     setTimerState(TimerState.IDLE);
   };

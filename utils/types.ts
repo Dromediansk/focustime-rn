@@ -1,3 +1,5 @@
+import { BREAK_INTERVAL_OPTIONS } from "./constants";
+
 export enum TimerState {
   IDLE = "IDLE",
   RUNNING = "RUNNING",
@@ -14,3 +16,5 @@ export type SummaryItem = {
   title: string;
   time: Time;
 };
+
+export type BreakIntervalOption = (typeof BREAK_INTERVAL_OPTIONS)[number];

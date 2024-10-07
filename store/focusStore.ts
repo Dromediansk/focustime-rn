@@ -1,4 +1,4 @@
-import { TimerState } from "@/utils/types";
+import { BreakIntervalOption, TimerState } from "@/utils/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
@@ -8,8 +8,8 @@ type FocusStore = {
   setTimerState: (state: TimerState) => void;
   focusSubject: string;
   setFocusSubject: (subject: string) => void;
-  breakInterval: string;
-  setBreakInterval: (interval: string) => void;
+  breakInterval: BreakIntervalOption;
+  setBreakInterval: (interval: BreakIntervalOption) => void;
 };
 
 export const useFocusStore = create(
