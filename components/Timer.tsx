@@ -3,7 +3,7 @@ import { useTimestampStore } from "@/store/timestampStore";
 import { formatTime, setTimeFromBackground } from "@/utils/functions";
 import { theme } from "@/utils/theme";
 import { Time, TimerState } from "@/utils/types";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { AppState, AppStateStatus, StyleSheet, Text, View } from "react-native";
 
 type TimerProps = {
@@ -16,15 +16,19 @@ export const Timer: FC<TimerProps> = ({ onTimeTick, setTime, time }) => {
   const timerState = useFocusStore((state) => state.timerState);
   const { setTimestamp } = useTimestampStore((state) => state);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       if (nextAppState === "background" && timerState === TimerState.RUNNING) {
         setTimestamp(time);
+        setLoading(true);
       } else if (
         nextAppState === "active" &&
         timerState === TimerState.RUNNING
       ) {
         setTimeFromBackground(time, setTime);
+        setLoading(false);
       }
     };
 
@@ -56,7 +60,7 @@ export const Timer: FC<TimerProps> = ({ onTimeTick, setTime, time }) => {
 
   return (
     <View>
-      <Text style={styles.timerText}>{formatTime(time)}</Text>
+      <Text style={styles.timerText}>{!loading && formatTime(time)}</Text>
     </View>
   );
 };
