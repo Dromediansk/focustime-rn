@@ -8,6 +8,10 @@ import { PressableButton } from "@/components/PressableButton";
 import { AppBackground } from "@/components/AppBackground";
 import ScrollPicker from "react-native-wheel-scrollview-picker";
 import { BREAK_INTERVAL_OPTIONS } from "@/utils/constants";
+import {
+  registerForPushNotificationsAsync,
+  scheduleBreakNotification,
+} from "@/service/NotificationsService";
 
 export default function App() {
   const { navigate } = useRouter();
@@ -19,7 +23,17 @@ export default function App() {
     setBreakInterval,
   } = useFocusStore((state) => state);
 
-  const handlePressStart = () => {
+  const handlePressStart = async () => {
+    const result = await registerForPushNotificationsAsync();
+
+    if (result === "granted") {
+      const breakNotificationId = await scheduleBreakNotification();
+      setBreakInterval({
+        ...breakInterval,
+        currentNotificationId: breakNotificationId,
+      });
+    }
+
     setTimerState(TimerState.RUNNING);
     navigate("/timer");
   };
@@ -44,12 +58,17 @@ export default function App() {
             <View style={styles.breakTextContainer}>
               <ScrollPicker
                 dataSource={BREAK_INTERVAL_OPTIONS}
-                selectedIndex={BREAK_INTERVAL_OPTIONS.indexOf(breakInterval)}
+                selectedIndex={BREAK_INTERVAL_OPTIONS.indexOf(
+                  breakInterval.interval
+                )}
                 onValueChange={(data) => {
                   if (!data) {
                     return;
                   }
-                  setBreakInterval(data);
+                  setBreakInterval({
+                    ...breakInterval,
+                    interval: data,
+                  });
                 }}
                 wrapperHeight={60}
                 wrapperBackground="transparent"

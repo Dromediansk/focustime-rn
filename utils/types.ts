@@ -17,4 +17,7 @@ export type SummaryItem = {
   time: Time;
 };
 
-export type BreakIntervalOption = (typeof BREAK_INTERVAL_OPTIONS)[number];
+export type BreakIntervalOption = {
+  interval: (typeof BREAK_INTERVAL_OPTIONS)[number];
+  currentNotificationId?: string;
+};

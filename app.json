@@ -37,6 +37,14 @@
             "node_modules/@expo-google-fonts/syne-mono/SyneMono_400Regular.ttf"
           ]
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/focustime.png",
+          "color": "#003545",
+          "defaultChannel": "default"
+        }
       ]
     ],
     "extra": {

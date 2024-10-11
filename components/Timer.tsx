@@ -56,7 +56,7 @@ export const Timer: FC<TimerProps> = ({ onTimeTick, setTime, time }) => {
         clearInterval(timer);
       }
     };
-  }, [onTimeTick, setTime, timerState]);
+  }, [onTimeTick, timerState]);
 
   return (
     <View>
