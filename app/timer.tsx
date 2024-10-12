@@ -13,7 +13,7 @@ import { AppBackground } from "@/components/AppBackground";
 import { useState } from "react";
 import { tickTime } from "@/utils/functions";
 import * as Notifications from "expo-notifications";
-import { scheduleBreakNotification } from "@/service/NotificationsService";
+import { scheduleBreakNotification } from "@/service/notifications";
 
 const defaultTime: Time = {
   hours: 0,

@@ -33,10 +33,13 @@ export const scheduleBreakNotification = async () => {
   const pushNotificationId = await Notifications.scheduleNotificationAsync({
     content: {
       title: "Time for break! ☕",
-      body: `${focusSubject} will pay off step by step.`,
+      body: `Your activity ${focusSubject} will pay off step by step.`,
+      color: "blue",
+      categoryIdentifier: "break",
+      vibrate: [0, 255, 255, 255],
     },
     trigger: {
-      seconds: breakInterval.interval * 60,
+      seconds: 5,
       repeats: true,
     },
   });
