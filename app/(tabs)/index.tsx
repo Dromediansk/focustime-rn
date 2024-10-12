@@ -9,28 +9,12 @@ import { AppBackground } from "@/components/AppBackground";
 import ScrollPicker from "react-native-wheel-scrollview-picker";
 import { BREAK_INTERVAL_OPTIONS } from "@/utils/constants";
 import {
+  addBreakNotificationListener,
+  createBreakNotificationCategory,
   registerForPushNotificationsAsync,
   scheduleBreakNotification,
 } from "@/service/notifications";
-import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
-
-Notifications.setNotificationCategoryAsync("break", [
-  {
-    buttonTitle: "Take a break",
-    identifier: "pause",
-    options: {
-      opensAppToForeground: true,
-    },
-  },
-  {
-    buttonTitle: "Ignore",
-    identifier: "ignore",
-    options: {
-      opensAppToForeground: false,
-    },
-  },
-]);
 
 export default function App() {
   const { navigate } = useRouter();
@@ -46,7 +30,6 @@ export default function App() {
     const result = await registerForPushNotificationsAsync();
 
     if (result === "granted") {
-      console.log("Notification permission granted");
       const breakNotificationId = await scheduleBreakNotification();
       setBreakInterval({
         ...breakInterval,
@@ -59,35 +42,20 @@ export default function App() {
   };
 
   useEffect(() => {
-    const subscription = Notifications.addNotificationResponseReceivedListener(
-      async (response) => {
-        if (
-          response.actionIdentifier === "pause" &&
-          breakInterval?.currentNotificationId
-        ) {
-          setTimerState(TimerState.PAUSED);
+    const initializeNotificationCategory = async () => {
+      await createBreakNotificationCategory();
+    };
 
-          await Notifications.cancelScheduledNotificationAsync(
-            breakInterval.currentNotificationId
-          );
-          await Notifications.dismissNotificationAsync(
-            breakInterval.currentNotificationId
-          );
-        } else if (
-          response.actionIdentifier === "ignore" &&
-          breakInterval.currentNotificationId
-        ) {
-          await Notifications.dismissNotificationAsync(
-            breakInterval.currentNotificationId
-          );
-        }
-      }
-    );
+    initializeNotificationCategory();
+  }, []);
+
+  useEffect(() => {
+    const breakNotificationSubscription = addBreakNotificationListener();
 
     return () => {
-      subscription.remove();
+      breakNotificationSubscription.remove();
     };
-  }, []);
+  }, [breakInterval, setBreakInterval, setTimerState]);
 
   return (
     <PaperProvider theme={theme}>

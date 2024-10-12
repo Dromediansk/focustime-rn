@@ -37,7 +37,7 @@ export default function TimerScreen() {
 
   const clearTimer = () => {
     setFocusSubject("");
-    setBreakInterval({ interval: 15 });
+    setBreakInterval({ interval: 15, currentNotificationId: "" });
     setTime(defaultTime);
     setTimerState(TimerState.IDLE);
   };
@@ -54,9 +54,12 @@ export default function TimerScreen() {
         await Notifications.cancelScheduledNotificationAsync(
           breakInterval.currentNotificationId
         );
+        setBreakInterval({ ...breakInterval, currentNotificationId: "" });
       }
-    }
-    if (timerState === TimerState.PAUSED || timerState === TimerState.IDLE) {
+    } else if (
+      timerState === TimerState.PAUSED ||
+      timerState === TimerState.IDLE
+    ) {
       setTimerState(TimerState.RUNNING);
       await scheduleBreakNotification();
     }
