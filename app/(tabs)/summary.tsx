@@ -3,8 +3,7 @@ import { theme } from "@/utils/theme";
 import { useSummaryStore } from "@/store/summaryStore";
 import { SummaryItem } from "@/utils/types";
 import { formatTime } from "@/utils/functions";
-import { Text } from "react-native-paper";
-import { PressableButton } from "@/components/PressableButton";
+import { IconButton, Text } from "react-native-paper";
 import { AppBackground } from "@/components/AppBackground";
 
 const Item = ({ item }: { item: SummaryItem }) => {
@@ -26,6 +25,12 @@ export default function SummaryScreen() {
     <AppBackground style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Summary</Text>
+        <IconButton
+          iconColor={theme.colors.primary}
+          icon="delete"
+          disabled={summary.length === 0}
+          onPress={clearSummary}
+        />
       </View>
       {summary.length === 0 ? (
         <View style={styles.noDataContainer}>
@@ -44,17 +49,6 @@ export default function SummaryScreen() {
           style={styles.flatList}
         />
       )}
-
-      <View style={styles.clearButtonContainer}>
-        <PressableButton
-          buttonStyle={styles.clearButton}
-          buttonPressedStyle={styles.clearButtonPressed}
-          disabled={summary.length === 0}
-          onPress={clearSummary}
-        >
-          CLEAR
-        </PressableButton>
-      </View>
     </AppBackground>
   );
 }
@@ -66,14 +60,18 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     borderBottomWidth: 0.5,
-    borderBottomColor: theme.colors?.onPrimaryContainer,
+    borderBottomColor: theme.colors?.primary,
     width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: theme.spacing.lg,
   },
   header: {
-    fontSize: theme.fonts.headlineMedium.fontSize,
+    fontSize: theme.fonts.headlineLarge.fontSize,
     fontFamily: theme.fonts.play.fontFamily,
     marginBottom: theme.spacing.md,
-    color: theme.colors?.onPrimaryContainer,
+    color: theme.colors?.primary,
     textAlign: "center",
     justifyContent: "center",
   },
@@ -107,16 +105,5 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     padding: theme.spacing.lg,
-  },
-  clearButtonContainer: {
-    marginTop: theme.spacing.lg,
-    marginBottom: theme.spacing.xl,
-  },
-  clearButton: {
-    backgroundColor: theme.colors.secondaryContainer,
-    color: theme.colors.onSecondaryContainer,
-  },
-  clearButtonPressed: {
-    backgroundColor: theme.colors.secondary,
   },
 });

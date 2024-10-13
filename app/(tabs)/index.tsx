@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   appTitle: {
     fontSize: theme.fonts.displayLarge.fontSize,
     fontFamily: theme.fonts.syneMono.fontFamily,
-    color: theme.colors.onPrimaryContainer,
+    color: theme.colors.primary,
   },
   introText: {
     fontSize: theme.fonts.headlineSmall.fontSize,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   inputContainer: {
-    width: "80%",
+    width: "90%",
     backgroundColor: theme.colors?.onPrimary,
   },
   breakContainer: {

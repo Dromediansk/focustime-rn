@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.play.fontFamily,
   },
   button: {
-    backgroundColor: theme.colors.primaryContainer,
-    color: theme.colors.onPrimaryContainer,
+    backgroundColor: theme.colors.primary,
+    color: theme.colors.onPrimary,
   },
   buttonPressed: {
     backgroundColor: theme.colors.onPrimary,
