@@ -10,11 +10,11 @@ import ScrollPicker from "react-native-wheel-scrollview-picker";
 import { BREAK_INTERVAL_OPTIONS } from "@/utils/constants";
 import {
   addBreakNotificationListener,
-  createBreakNotificationCategory,
-  registerForPushNotificationsAsync,
+  initializeBreakNotification,
   scheduleBreakNotification,
 } from "@/service/notifications";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { PermissionStatus } from "expo-notifications";
 
 export default function App() {
   const { navigate } = useRouter();
@@ -25,11 +25,11 @@ export default function App() {
     breakInterval,
     setBreakInterval,
   } = useFocusStore((state) => state);
+  const [notificationPermission, setNotificationPermission] =
+    useState<PermissionStatus | null>(null);
 
   const handlePressStart = async () => {
-    const result = await registerForPushNotificationsAsync();
-
-    if (result === "granted") {
+    if (notificationPermission === "granted") {
       const breakNotificationId = await scheduleBreakNotification();
       setBreakInterval({
         ...breakInterval,
@@ -42,11 +42,13 @@ export default function App() {
   };
 
   useEffect(() => {
-    const initializeNotificationCategory = async () => {
-      await createBreakNotificationCategory();
-    };
-
-    initializeNotificationCategory();
+    async function initializeNotification() {
+      const result = await initializeBreakNotification();
+      if (result?.notificationStatus) {
+        setNotificationPermission(result.notificationStatus);
+      }
+    }
+    initializeNotification();
   }, []);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ enum NotificationCategory {
   BREAK = "break",
 }
 
-export const registerForPushNotificationsAsync = async () => {
+const registerForPushNotificationsAsync = async () => {
   if (Platform.OS === "android") {
     await Notifications.setNotificationChannelAsync("default", {
       name: "default",
@@ -32,56 +32,7 @@ export const registerForPushNotificationsAsync = async () => {
   }
 };
 
-export const scheduleBreakNotification = async () => {
-  const { breakInterval, focusSubject } = useFocusStore.getState();
-
-  const pushNotificationId = await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Time for break! ☕",
-      body: `Your activity ${focusSubject} will pay off step by step.`,
-      categoryIdentifier: NotificationCategory.BREAK,
-      vibrate: [0, 255, 255, 255],
-      autoDismiss: true,
-    },
-    trigger: {
-      seconds: breakInterval.interval * 60,
-      repeats: true,
-    },
-  });
-
-  return pushNotificationId;
-};
-
-export const addBreakNotificationListener = () =>
-  Notifications.addNotificationResponseReceivedListener(async (response) => {
-    const { breakInterval, setBreakInterval, setTimerState } =
-      useFocusStore.getState();
-
-    if (
-      response.actionIdentifier === "pause" &&
-      breakInterval?.currentNotificationId
-    ) {
-      await Promise.all([
-        Notifications.cancelScheduledNotificationAsync(
-          breakInterval.currentNotificationId
-        ),
-        Notifications.dismissNotificationAsync(
-          breakInterval.currentNotificationId
-        ),
-      ]);
-      setBreakInterval({ ...breakInterval, currentNotificationId: "" });
-      setTimerState(TimerState.PAUSED);
-    } else if (
-      response.actionIdentifier === "ignore" &&
-      breakInterval.currentNotificationId
-    ) {
-      await Notifications.dismissNotificationAsync(
-        breakInterval.currentNotificationId
-      );
-    }
-  });
-
-export const createBreakNotificationCategory = async () =>
+const createBreakNotificationCategory = async () =>
   await Notifications.setNotificationCategoryAsync("break", [
     {
       buttonTitle: "Take a break",
@@ -98,3 +49,67 @@ export const createBreakNotificationCategory = async () =>
       },
     },
   ]);
+
+export const initializeBreakNotification = async () => {
+  try {
+    const [notificationStatus, notificationCategory] = await Promise.all([
+      registerForPushNotificationsAsync(),
+      createBreakNotificationCategory(),
+    ]);
+    return { notificationStatus, notificationCategory };
+  } catch (error) {
+    console.error("Error initializing break notification:", error);
+  }
+};
+
+export const scheduleBreakNotification = async () => {
+  const { breakInterval, focusSubject } = useFocusStore.getState();
+
+  const pushNotificationId = await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Time for break! ☕",
+      body: `Your activity ${focusSubject} will pay off step by step.`,
+      categoryIdentifier: NotificationCategory.BREAK,
+      vibrate: [0, 255, 255, 255],
+      autoDismiss: true,
+      color: "#003545",
+    },
+    trigger: {
+      seconds: breakInterval.interval * 60,
+      repeats: true,
+    },
+  });
+
+  return pushNotificationId;
+};
+
+export const addBreakNotificationListener = () =>
+  Notifications.addNotificationResponseReceivedListener(async (response) => {
+    try {
+      const { breakInterval, setBreakInterval, setTimerState } =
+        useFocusStore.getState();
+
+      if (!breakInterval.currentNotificationId) {
+        throw new Error("Technical error occured.");
+      }
+
+      if (response.actionIdentifier === "pause") {
+        await Promise.all([
+          Notifications.cancelScheduledNotificationAsync(
+            breakInterval.currentNotificationId
+          ),
+          Notifications.dismissNotificationAsync(
+            breakInterval.currentNotificationId
+          ),
+        ]);
+        setBreakInterval({ ...breakInterval, currentNotificationId: "" });
+        setTimerState(TimerState.PAUSED);
+      } else if (response.actionIdentifier === "ignore") {
+        await Notifications.dismissNotificationAsync(
+          breakInterval.currentNotificationId
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
