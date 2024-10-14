@@ -76,38 +76,35 @@ export default function App() {
             placeholder="i.e. deep work, exercise or meditating"
             placeholderTextColor={theme.colors?.onSurfaceDisabled}
           />
+          <Text style={styles.breakText}>Break interval in minutes:</Text>
           <View style={styles.breakContainer}>
-            <Text style={styles.breakText}>Take a break every</Text>
-            <View style={styles.breakTextContainer}>
-              <ScrollPicker
-                dataSource={BREAK_INTERVAL_OPTIONS}
-                selectedIndex={BREAK_INTERVAL_OPTIONS.indexOf(
-                  breakInterval.interval
-                )}
-                onValueChange={(data) => {
-                  if (!data) {
-                    return;
-                  }
-                  setBreakInterval({
-                    ...breakInterval,
-                    interval: data,
-                  });
-                }}
-                wrapperHeight={75}
-                wrapperBackground="transparent"
-                activeItemTextStyle={{
-                  color: theme.colors.onPrimaryContainer,
-                  fontSize: theme.fonts.titleLarge.fontSize,
-                }}
-                itemTextStyle={{
-                  color: theme.colors.surfaceDisabled,
-                  fontSize: theme.fonts.titleLarge.fontSize,
-                }}
-                itemHeight={25}
-                highlightColor="transparent"
-              />
-            </View>
-            <Text style={styles.breakText}>minutes</Text>
+            <ScrollPicker
+              dataSource={BREAK_INTERVAL_OPTIONS}
+              selectedIndex={BREAK_INTERVAL_OPTIONS.indexOf(
+                breakInterval.interval
+              )}
+              onValueChange={(data) => {
+                if (!data) {
+                  return;
+                }
+                setBreakInterval({
+                  ...breakInterval,
+                  interval: data,
+                });
+              }}
+              wrapperHeight={75}
+              wrapperBackground="transparent"
+              activeItemTextStyle={{
+                color: theme.colors.onPrimaryContainer,
+                fontSize: theme.fonts.titleLarge.fontSize,
+              }}
+              itemTextStyle={{
+                color: theme.colors.surfaceDisabled,
+                fontSize: theme.fonts.titleLarge.fontSize,
+              }}
+              itemHeight={25}
+              highlightColor="transparent"
+            />
           </View>
         </View>
         <PressableButton disabled={!!!focusSubject} onPress={handlePressStart}>
@@ -146,11 +143,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: theme.spacing.md,
     alignItems: "center",
-  },
-  breakTextContainer: {
-    width: 30,
-    height: 75,
-    justifyContent: "center",
   },
   breakText: {
     fontSize: theme.fonts.titleLarge.fontSize,
