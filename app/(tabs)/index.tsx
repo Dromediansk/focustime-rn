@@ -67,7 +67,9 @@ export default function App() {
           <Text style={styles.introText}>What's your target?</Text>
           <TextInput
             style={styles.inputContainer}
-            contentStyle={{ fontFamily: theme.fonts.play.fontFamily }}
+            contentStyle={{
+              fontFamily: theme.fonts.play.fontFamily,
+            }}
             mode="flat"
             value={focusSubject}
             onChange={(e) => setFocusSubject(e.nativeEvent.text)}
@@ -91,11 +93,17 @@ export default function App() {
                     interval: data,
                   });
                 }}
-                wrapperHeight={60}
+                wrapperHeight={75}
                 wrapperBackground="transparent"
-                activeItemTextStyle={{ color: theme.colors.onPrimaryContainer }}
-                itemTextStyle={{ color: theme.colors.surfaceDisabled }}
-                itemHeight={20}
+                activeItemTextStyle={{
+                  color: theme.colors.onPrimaryContainer,
+                  fontSize: theme.fonts.titleLarge.fontSize,
+                }}
+                itemTextStyle={{
+                  color: theme.colors.surfaceDisabled,
+                  fontSize: theme.fonts.titleLarge.fontSize,
+                }}
+                itemHeight={25}
                 highlightColor="transparent"
               />
             </View>
@@ -140,12 +148,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   breakTextContainer: {
-    width: 20,
-    height: 60,
+    width: 30,
+    height: 75,
     justifyContent: "center",
   },
   breakText: {
-    fontSize: theme.fonts.bodyLarge.fontSize,
+    fontSize: theme.fonts.titleLarge.fontSize,
     color: theme.colors.onPrimaryContainer,
   },
 });
