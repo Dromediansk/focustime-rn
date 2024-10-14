@@ -1,21 +1,17 @@
-import { Time } from "@/utils/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 type TimestampStore = {
-  timestamp: [Date, Time];
-  setTimestamp: (time: Time) => void;
+  timestamp: Date;
+  setTimestamp: () => void;
 };
 
 export const useTimestampStore = create(
   persist<TimestampStore>(
     (set) => ({
-      timestamp: [new Date(), { hours: 0, minutes: 0, seconds: 0 }],
-      setTimestamp: (time) => {
-        const now = new Date();
-        set({ timestamp: [now, time] });
-      },
+      timestamp: new Date(),
+      setTimestamp: () => set({ timestamp: new Date() }),
     }),
     {
       name: "focustime-timestamp-store",

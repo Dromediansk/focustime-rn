@@ -22,7 +22,7 @@ export const useSummaryStore = create(
 
           if (existingItemIndex !== -1) {
             const existingItem = state.summary[existingItemIndex];
-            existingItem.time = addTime(existingItem.time, item.time);
+            existingItem.timer = addTime(existingItem.timer, item.timer);
             return { summary: state.summary };
           }
 

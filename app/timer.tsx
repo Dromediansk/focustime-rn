@@ -33,12 +33,12 @@ export default function TimerScreen() {
   } = useFocusStore((state) => state);
   const addSummaryItem = useSummaryStore((state) => state.addSummaryItem);
 
-  const [time, setTime] = useState(defaultTime);
+  const [currentTimer, setCurrentTimer] = useState(defaultTime);
 
   const clearTimer = () => {
     setFocusSubject("");
     setBreakInterval({ interval: 15, currentNotificationId: "" });
-    setTime(defaultTime);
+    setCurrentTimer(defaultTime);
     setTimerState(TimerState.IDLE);
   };
 
@@ -68,7 +68,7 @@ export default function TimerScreen() {
   const handleStop = async () => {
     addSummaryItem({
       title: focusSubject,
-      time,
+      timer: currentTimer,
     });
     clearTimer();
     replace("/summary");
@@ -84,9 +84,9 @@ export default function TimerScreen() {
         />
       </View>
       <Timer
-        onTimeTick={() => setTime(tickTime)}
-        time={time}
-        setTime={setTime}
+        onTimeTick={() => setCurrentTimer(tickTime)}
+        currentTimer={currentTimer}
+        setCurrentTimer={setCurrentTimer}
       />
       <View style={styles.animationContainer}>
         {timerState === TimerState.RUNNING && <FocusAnimation />}

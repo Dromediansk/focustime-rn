@@ -9,11 +9,11 @@ import { AppBackground } from "@/components/AppBackground";
 const Item = ({ item }: { item: SummaryItem }) => {
   return (
     <View
-      key={`${item.title}-${item.time.hours}:${item.time.minutes}:${item.time.seconds}`}
+      key={`${item.title}-${item.timer.hours}:${item.timer.minutes}:${item.timer.seconds}`}
       style={styles.itemContainer}
     >
       <Text style={styles.itemTitle}>{item.title}</Text>
-      <Text style={styles.itemTime}>{formatTime(item.time)}</Text>
+      <Text style={styles.itemTime}>{formatTime(item.timer)}</Text>
     </View>
   );
 };
@@ -44,7 +44,7 @@ export default function SummaryScreen() {
           data={summary}
           renderItem={({ item }) => <Item item={item} />}
           keyExtractor={(item) =>
-            `${item.title}-${item.time.hours}:${item.time.minutes}:${item.time.seconds}`
+            `${item.title}-${item.timer.hours}:${item.timer.minutes}:${item.timer.seconds}`
           }
           style={styles.flatList}
         />

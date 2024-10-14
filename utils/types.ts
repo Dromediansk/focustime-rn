@@ -14,7 +14,7 @@ export type Time = {
 
 export type SummaryItem = {
   title: string;
-  time: Time;
+  timer: Time;
 };
 
 export type BreakIntervalOption = {

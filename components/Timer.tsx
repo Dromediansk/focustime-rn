@@ -7,12 +7,16 @@ import { FC, useEffect, useState } from "react";
 import { AppState, AppStateStatus, StyleSheet, Text, View } from "react-native";
 
 type TimerProps = {
-  time: Time;
-  setTime: (time: Time) => void;
+  currentTimer: Time;
+  setCurrentTimer: (time: Time) => void;
   onTimeTick: () => void;
 };
 
-export const Timer: FC<TimerProps> = ({ onTimeTick, setTime, time }) => {
+export const Timer: FC<TimerProps> = ({
+  onTimeTick,
+  setCurrentTimer,
+  currentTimer,
+}) => {
   const timerState = useFocusStore((state) => state.timerState);
   const { setTimestamp } = useTimestampStore((state) => state);
 
@@ -21,13 +25,13 @@ export const Timer: FC<TimerProps> = ({ onTimeTick, setTime, time }) => {
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       if (nextAppState === "background" && timerState === TimerState.RUNNING) {
-        setTimestamp(time);
+        setTimestamp();
         setLoading(true);
       } else if (
         nextAppState === "active" &&
         timerState === TimerState.RUNNING
       ) {
-        setTimeFromBackground(time, setTime);
+        setTimeFromBackground(currentTimer, setCurrentTimer);
         setLoading(false);
       }
     };
@@ -40,7 +44,7 @@ export const Timer: FC<TimerProps> = ({ onTimeTick, setTime, time }) => {
     return () => {
       subscription.remove();
     };
-  }, [setTime, setTimestamp, time, timerState]);
+  }, [setCurrentTimer, setTimestamp, currentTimer, timerState]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -60,7 +64,9 @@ export const Timer: FC<TimerProps> = ({ onTimeTick, setTime, time }) => {
 
   return (
     <View>
-      <Text style={styles.timerText}>{!loading && formatTime(time)}</Text>
+      <Text style={styles.timerText}>
+        {!loading && formatTime(currentTimer)}
+      </Text>
     </View>
   );
 };
