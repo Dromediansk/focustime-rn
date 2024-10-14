@@ -1,9 +1,62 @@
 import { useTimestampStore } from "@/store/timestampStore";
-import { setTimeFromBackground } from "./functions";
+import { addTime, setTimeFromBackground, tickTime } from "./functions";
 
-jest.mock("@/store/timestampStore");
+describe("addTime", () => {
+  it("should add two times together", () => {
+    const defaultTime = { hours: 1, minutes: 30, seconds: 45 };
+    const addedTime = { hours: 2, minutes: 15, seconds: 15 };
+
+    const result = addTime(defaultTime, addedTime);
+
+    expect(result).toEqual({ hours: 3, minutes: 46, seconds: 0 });
+  });
+
+  it("should add two times together and carry over", () => {
+    const defaultTime = { hours: 1, minutes: 30, seconds: 45 };
+    const addedTime = { hours: 2, minutes: 30, seconds: 45 };
+
+    const result = addTime(defaultTime, addedTime);
+
+    expect(result).toEqual({ hours: 4, minutes: 1, seconds: 30 });
+  });
+});
+
+describe("tickTime", () => {
+  it("should increment time by 1 second", () => {
+    const previousTime = { hours: 1, minutes: 30, seconds: 45 };
+
+    const result = tickTime(previousTime);
+
+    expect(result).toEqual({ hours: 1, minutes: 30, seconds: 46 });
+  });
+
+  it("should increment time by 1 second and carry over", () => {
+    const previousTime = { hours: 1, minutes: 30, seconds: 59 };
+
+    const result = tickTime(previousTime);
+
+    expect(result).toEqual({ hours: 1, minutes: 31, seconds: 0 });
+  });
+
+  it("should increment time by 1 second and carry over minutes and hours", () => {
+    const previousTime = { hours: 1, minutes: 59, seconds: 59 };
+
+    const result = tickTime(previousTime);
+
+    expect(result).toEqual({ hours: 2, minutes: 0, seconds: 0 });
+  });
+
+  it("should increment time by 1 second and carry over hours", () => {
+    const previousTime = { hours: 23, minutes: 59, seconds: 59 };
+
+    const result = tickTime(previousTime);
+
+    expect(result).toEqual({ hours: 24, minutes: 0, seconds: 0 });
+  });
+});
 
 describe("setTimeFromBackground", () => {
+  jest.mock("@/store/timestampStore");
   const mockGetState = jest.fn();
 
   beforeEach(() => {
