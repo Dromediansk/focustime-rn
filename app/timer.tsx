@@ -35,15 +35,20 @@ export default function TimerScreen() {
 
   const [currentTimer, setCurrentTimer] = useState(defaultTime);
 
-  const clearTimer = () => {
+  const clearTimer = async () => {
+    if (breakInterval?.currentNotificationId) {
+      await Notifications.cancelScheduledNotificationAsync(
+        breakInterval.currentNotificationId
+      );
+    }
     setFocusSubject("");
     setBreakInterval({ interval: 15, currentNotificationId: "" });
     setCurrentTimer(defaultTime);
     setTimerState(TimerState.IDLE);
   };
 
-  const handleReset = () => {
-    clearTimer();
+  const handleReset = async () => {
+    await clearTimer();
     navigate("/");
   };
 
@@ -66,6 +71,11 @@ export default function TimerScreen() {
   };
 
   const handleStop = async () => {
+    if (breakInterval?.currentNotificationId) {
+      await Notifications.cancelScheduledNotificationAsync(
+        breakInterval.currentNotificationId
+      );
+    }
     addSummaryItem({
       title: focusSubject,
       timer: currentTimer,
