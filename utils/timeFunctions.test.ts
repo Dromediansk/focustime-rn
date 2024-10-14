@@ -1,5 +1,10 @@
 import { useTimestampStore } from "@/store/timestampStore";
-import { addTime, setTimeFromBackground, tickTime } from "./functions";
+import {
+  addTime,
+  formatTime,
+  setTimeFromBackground,
+  tickTime,
+} from "./timeFunctions";
 
 describe("addTime", () => {
   it("should add two times together", () => {
@@ -151,5 +156,23 @@ describe("setTimeFromBackground", () => {
       minutes: 25,
       seconds: 34,
     });
+  });
+});
+
+describe("formatTime", () => {
+  it("should format time correctly", () => {
+    const time = { hours: 1, minutes: 30, seconds: 45 };
+
+    const result = formatTime(time);
+
+    expect(result).toBe("01 : 30 : 45");
+  });
+
+  it("should format time correctly with single digit values", () => {
+    const time = { hours: 0, minutes: 0, seconds: 1 };
+
+    const result = formatTime(time);
+
+    expect(result).toBe("00 : 00 : 01");
   });
 });

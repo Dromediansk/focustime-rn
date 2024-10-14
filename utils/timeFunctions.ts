@@ -2,8 +2,7 @@ import { useTimestampStore } from "@/store/timestampStore";
 import { Time } from "./types";
 import { differenceInSeconds } from "date-fns";
 
-export const formatTimeFragment = (time: number) =>
-  time.toString().padStart(2, "0");
+const formatTimeFragment = (time: number) => time.toString().padStart(2, "0");
 
 export const formatTime = ({ hours, minutes, seconds }: Time) =>
   `${formatTimeFragment(hours)} : ${formatTimeFragment(

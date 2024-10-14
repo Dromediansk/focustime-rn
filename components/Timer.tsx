@@ -1,6 +1,6 @@
 import { useFocusStore } from "@/store/focusStore";
 import { useTimestampStore } from "@/store/timestampStore";
-import { formatTime, setTimeFromBackground } from "@/utils/functions";
+import { formatTime, setTimeFromBackground } from "@/utils/timeFunctions";
 import { theme } from "@/utils/theme";
 import { Time, TimerState } from "@/utils/types";
 import { FC, useEffect, useState } from "react";

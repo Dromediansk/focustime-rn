@@ -11,7 +11,7 @@ import { PlayButton } from "@/components/PlayButton";
 import { useSummaryStore } from "@/store/summaryStore";
 import { AppBackground } from "@/components/AppBackground";
 import { useState } from "react";
-import { tickTime } from "@/utils/functions";
+import { tickTime } from "@/utils/timeFunctions";
 import * as Notifications from "expo-notifications";
 import { scheduleBreakNotification } from "@/service/notifications";
 

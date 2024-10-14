@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { addTime } from "@/utils/functions";
+import { addTime } from "@/utils/timeFunctions";
 import { SummaryItem } from "@/utils/types";
 import { create } from "zustand";
 import * as Notifications from "expo-notifications";
