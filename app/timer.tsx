@@ -65,12 +65,12 @@ export default function TimerScreen() {
   };
 
   const handleStop = async () => {
-    await cancelBreakNotification();
     addSummaryItem({
       title: focusSubject,
       timer: currentTimer,
     });
-    clearTimer();
+
+    await clearTimer();
     replace("/summary");
   };
 
