@@ -1,5 +1,5 @@
-import { useFocusStore } from "@/store/focusStore";
-import { useTimestampStore } from "@/store/timestampStore";
+import { useFocusStore } from "@/stores/focusStore";
+import { useTimestampStore } from "@/stores/timestampStore";
 import { formatTime, setTimeFromBackground } from "@/utils/timeFunctions";
 import { theme } from "@/utils/theme";
 import { Time, TimerState } from "@/utils/types";

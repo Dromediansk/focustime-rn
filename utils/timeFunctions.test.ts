@@ -1,4 +1,4 @@
-import { useTimestampStore } from "@/store/timestampStore";
+import { useTimestampStore } from "@/stores/timestampStore";
 import {
   addTime,
   formatTime,

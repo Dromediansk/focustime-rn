@@ -1,11 +1,11 @@
 import { StyleSheet, FlatList, View } from "react-native";
 import { theme } from "@/utils/theme";
-import { useSummaryStore } from "@/store/summaryStore";
+import { useSummaryStore } from "@/stores/summaryStore";
 import { SummaryItem } from "@/utils/types";
 import { formatTime } from "@/utils/timeFunctions";
 import { IconButton, Text } from "react-native-paper";
 import { AppBackground } from "@/components/AppBackground";
-import { cancelBreakNotification } from "@/service/notifications";
+import { cancelBreakNotification } from "@/services/notifications";
 
 const Item = ({ item }: { item: SummaryItem }) => {
   return (

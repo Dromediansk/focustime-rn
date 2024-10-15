@@ -1,6 +1,6 @@
 import { Text, StyleSheet, View } from "react-native";
 import { theme } from "@/utils/theme";
-import { useFocusStore } from "@/store/focusStore";
+import { useFocusStore } from "@/stores/focusStore";
 import { Time, TimerState } from "@/utils/types";
 import { ResetButton } from "@/components/ResetButton";
 import { useRouter } from "expo-router";
@@ -8,14 +8,14 @@ import { StopButton } from "@/components/StopButton";
 import { Timer } from "@/components/Timer";
 import { FocusAnimation } from "@/components/FocusAnimation";
 import { PlayButton } from "@/components/PlayButton";
-import { useSummaryStore } from "@/store/summaryStore";
+import { useSummaryStore } from "@/stores/summaryStore";
 import { AppBackground } from "@/components/AppBackground";
 import { useState } from "react";
 import { tickTime } from "@/utils/timeFunctions";
 import {
   cancelBreakNotification,
   scheduleBreakNotification,
-} from "@/service/notifications";
+} from "@/services/notifications";
 
 const defaultTime: Time = {
   hours: 0,

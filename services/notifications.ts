@@ -1,7 +1,7 @@
 import { Platform } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import { useFocusStore } from "@/store/focusStore";
+import { useFocusStore } from "@/stores/focusStore";
 import { TimerState } from "@/utils/types";
 
 enum NotificationCategory {

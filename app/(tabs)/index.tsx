@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { PaperProvider, Text, TextInput } from "react-native-paper";
 import { theme } from "@/utils/theme";
 import { useRouter } from "expo-router";
-import { useFocusStore } from "@/store/focusStore";
+import { useFocusStore } from "@/stores/focusStore";
 import { TimerState } from "@/utils/types";
 import { PressableButton } from "@/components/PressableButton";
 import { AppBackground } from "@/components/AppBackground";
@@ -12,7 +12,7 @@ import {
   addBreakNotificationListener,
   initializeBreakNotification,
   scheduleBreakNotification,
-} from "@/service/notifications";
+} from "@/services/notifications";
 import { useEffect, useState } from "react";
 import { PermissionStatus } from "expo-notifications";
 
