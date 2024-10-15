@@ -113,3 +113,13 @@ export const addBreakNotificationListener = () =>
       console.error(error);
     }
   });
+
+export const cancelBreakNotification = async () => {
+  const { breakInterval } = useFocusStore.getState();
+
+  if (breakInterval.currentNotificationId) {
+    await Notifications.cancelScheduledNotificationAsync(
+      breakInterval.currentNotificationId
+    );
+  }
+};

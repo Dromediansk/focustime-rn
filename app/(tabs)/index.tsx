@@ -25,6 +25,7 @@ export default function App() {
     breakInterval,
     setBreakInterval,
   } = useFocusStore((state) => state);
+
   const [notificationPermission, setNotificationPermission] =
     useState<PermissionStatus | null>(null);
 

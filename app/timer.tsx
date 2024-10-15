@@ -12,8 +12,10 @@ import { useSummaryStore } from "@/store/summaryStore";
 import { AppBackground } from "@/components/AppBackground";
 import { useState } from "react";
 import { tickTime } from "@/utils/timeFunctions";
-import * as Notifications from "expo-notifications";
-import { scheduleBreakNotification } from "@/service/notifications";
+import {
+  cancelBreakNotification,
+  scheduleBreakNotification,
+} from "@/service/notifications";
 
 const defaultTime: Time = {
   hours: 0,
@@ -36,11 +38,7 @@ export default function TimerScreen() {
   const [currentTimer, setCurrentTimer] = useState(defaultTime);
 
   const clearTimer = async () => {
-    if (breakInterval?.currentNotificationId) {
-      await Notifications.cancelScheduledNotificationAsync(
-        breakInterval.currentNotificationId
-      );
-    }
+    await cancelBreakNotification();
     setFocusSubject("");
     setBreakInterval({ interval: 15, currentNotificationId: "" });
     setCurrentTimer(defaultTime);
@@ -54,13 +52,9 @@ export default function TimerScreen() {
 
   const handlePressPlay = async () => {
     if (timerState === TimerState.RUNNING) {
+      await cancelBreakNotification();
       setTimerState(TimerState.PAUSED);
-      if (breakInterval?.currentNotificationId) {
-        await Notifications.cancelScheduledNotificationAsync(
-          breakInterval.currentNotificationId
-        );
-        setBreakInterval({ ...breakInterval, currentNotificationId: "" });
-      }
+      setBreakInterval({ ...breakInterval, currentNotificationId: "" });
     } else if (
       timerState === TimerState.PAUSED ||
       timerState === TimerState.IDLE
@@ -71,11 +65,7 @@ export default function TimerScreen() {
   };
 
   const handleStop = async () => {
-    if (breakInterval?.currentNotificationId) {
-      await Notifications.cancelScheduledNotificationAsync(
-        breakInterval.currentNotificationId
-      );
-    }
+    await cancelBreakNotification();
     addSummaryItem({
       title: focusSubject,
       timer: currentTimer,

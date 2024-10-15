@@ -5,6 +5,7 @@ import { SummaryItem } from "@/utils/types";
 import { formatTime } from "@/utils/timeFunctions";
 import { IconButton, Text } from "react-native-paper";
 import { AppBackground } from "@/components/AppBackground";
+import { cancelBreakNotification } from "@/service/notifications";
 
 const Item = ({ item }: { item: SummaryItem }) => {
   return (
@@ -21,6 +22,11 @@ const Item = ({ item }: { item: SummaryItem }) => {
 export default function SummaryScreen() {
   const { summary, clearSummary } = useSummaryStore((state) => state);
 
+  const handlePressDelete = async () => {
+    clearSummary();
+    await cancelBreakNotification();
+  };
+
   return (
     <AppBackground style={styles.container}>
       <View style={styles.headerContainer}>
@@ -29,7 +35,7 @@ export default function SummaryScreen() {
           iconColor={theme.colors.primary}
           icon="delete"
           disabled={summary.length === 0}
-          onPress={clearSummary}
+          onPress={handlePressDelete}
         />
       </View>
       {summary.length === 0 ? (
