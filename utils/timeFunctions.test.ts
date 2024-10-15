@@ -61,7 +61,7 @@ describe("tickTime", () => {
 });
 
 describe("setTimeFromBackground", () => {
-  jest.mock("@/store/timestampStore");
+  jest.mock("@/stores/timestampStore");
   const mockGetState = jest.fn();
 
   beforeEach(() => {
