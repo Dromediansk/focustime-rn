@@ -95,19 +95,13 @@ export const addBreakNotificationListener = () =>
 
       if (response.actionIdentifier === "pause") {
         await Promise.all([
-          Notifications.cancelScheduledNotificationAsync(
-            breakInterval.currentNotificationId
-          ),
-          Notifications.dismissNotificationAsync(
-            breakInterval.currentNotificationId
-          ),
+          cancelBreakNotification(),
+          dismissBreakNotification(),
         ]);
         setBreakInterval({ ...breakInterval, currentNotificationId: "" });
         setTimerState(TimerState.PAUSED);
       } else if (response.actionIdentifier === "ignore") {
-        await Notifications.dismissNotificationAsync(
-          breakInterval.currentNotificationId
-        );
+        await dismissBreakNotification();
       }
     } catch (error) {
       console.error(error);
@@ -119,6 +113,16 @@ export const cancelBreakNotification = async () => {
 
   if (breakInterval.currentNotificationId) {
     await Notifications.cancelScheduledNotificationAsync(
+      breakInterval.currentNotificationId
+    );
+  }
+};
+
+export const dismissBreakNotification = async () => {
+  const { breakInterval } = useFocusStore.getState();
+
+  if (breakInterval.currentNotificationId) {
+    await Notifications.dismissNotificationAsync(
       breakInterval.currentNotificationId
     );
   }
