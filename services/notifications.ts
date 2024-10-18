@@ -8,7 +8,12 @@ enum NotificationCategory {
   BREAK = "break",
 }
 
-const registerForPushNotificationsAsync = async () => {
+enum ActionIdentifier {
+  PAUSE = "pause",
+  IGNORE = "ignore",
+}
+
+const registerForPushNotifications = async () => {
   if (Platform.OS === "android") {
     await Notifications.setNotificationChannelAsync("default", {
       name: "default",
@@ -36,14 +41,14 @@ const createBreakNotificationCategory = async () =>
   await Notifications.setNotificationCategoryAsync("break", [
     {
       buttonTitle: "Take a break",
-      identifier: "pause",
+      identifier: ActionIdentifier.PAUSE,
       options: {
         opensAppToForeground: true,
       },
     },
     {
       buttonTitle: "Ignore",
-      identifier: "ignore",
+      identifier: ActionIdentifier.IGNORE,
       options: {
         opensAppToForeground: false,
       },
@@ -53,7 +58,7 @@ const createBreakNotificationCategory = async () =>
 export const initializeBreakNotification = async () => {
   try {
     const [notificationStatus, notificationCategory] = await Promise.all([
-      registerForPushNotificationsAsync(),
+      registerForPushNotifications(),
       createBreakNotificationCategory(),
     ]);
     return { notificationStatus, notificationCategory };
@@ -71,12 +76,13 @@ export const scheduleBreakNotification = async () => {
       body: `Your activity ${focusSubject} will pay off step by step.`,
       categoryIdentifier: NotificationCategory.BREAK,
       vibrate: [0, 255, 255, 255],
-      autoDismiss: true,
+      interruptionLevel: "active",
       color: "#003545",
     },
     trigger: {
       seconds: breakInterval.interval * 60,
       repeats: true,
+      channelId: "default",
     },
   });
 
@@ -93,14 +99,14 @@ export const addBreakNotificationListener = () =>
         throw new Error("Technical error occured.");
       }
 
-      if (response.actionIdentifier === "pause") {
+      if (response.actionIdentifier === ActionIdentifier.PAUSE) {
         await Promise.all([
           cancelBreakNotification(),
           dismissBreakNotification(),
         ]);
         setBreakInterval({ ...breakInterval, currentNotificationId: "" });
         setTimerState(TimerState.PAUSED);
-      } else if (response.actionIdentifier === "ignore") {
+      } else if (response.actionIdentifier === ActionIdentifier.IGNORE) {
         await dismissBreakNotification();
       }
     } catch (error) {
