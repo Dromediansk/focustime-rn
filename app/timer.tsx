@@ -40,37 +40,36 @@ export default function TimerScreen() {
   const clearTimer = async () => {
     await cancelBreakNotification();
     setFocusSubject("");
-    setBreakInterval({ interval: 15, currentNotificationId: "" });
+    setBreakInterval({ ...breakInterval, interval: 15 });
     setCurrentTimer(defaultTime);
     setTimerState(TimerState.IDLE);
   };
 
-  const handleReset = async () => {
-    await clearTimer();
+  const handleReset = () => {
+    clearTimer();
     navigate("/");
   };
 
-  const handlePressPlay = async () => {
+  const handlePressPlay = () => {
     if (timerState === TimerState.RUNNING) {
-      await cancelBreakNotification();
       setTimerState(TimerState.PAUSED);
-      setBreakInterval({ ...breakInterval, currentNotificationId: "" });
+      cancelBreakNotification();
     } else if (
       timerState === TimerState.PAUSED ||
       timerState === TimerState.IDLE
     ) {
       setTimerState(TimerState.RUNNING);
-      await scheduleBreakNotification();
+      scheduleBreakNotification();
     }
   };
 
-  const handleStop = async () => {
+  const handleStop = () => {
     addSummaryItem({
       title: focusSubject,
       timer: currentTimer,
     });
 
-    await clearTimer();
+    clearTimer();
     replace("/summary");
   };
 

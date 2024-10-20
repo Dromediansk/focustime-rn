@@ -29,13 +29,9 @@ export default function App() {
   const [notificationPermission, setNotificationPermission] =
     useState<PermissionStatus | null>(null);
 
-  const handlePressStart = async () => {
+  const handlePressStart = () => {
     if (notificationPermission === "granted") {
-      const breakNotificationId = await scheduleBreakNotification();
-      setBreakInterval({
-        ...breakInterval,
-        currentNotificationId: breakNotificationId,
-      });
+      scheduleBreakNotification();
     }
 
     setTimerState(TimerState.RUNNING);
@@ -58,7 +54,7 @@ export default function App() {
     return () => {
       breakNotificationSubscription.remove();
     };
-  }, [breakInterval, setBreakInterval, setTimerState]);
+  }, []);
 
   return (
     <PaperProvider theme={theme}>

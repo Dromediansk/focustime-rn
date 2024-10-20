@@ -19,7 +19,7 @@ export const useFocusStore = create(
       setTimerState: (state) => set({ timerState: state }),
       focusSubject: "",
       setFocusSubject: (subject) => set({ focusSubject: subject.trim() }),
-      breakInterval: { interval: 15, currentNotificationId: undefined },
+      breakInterval: { interval: 15, currentNotificationId: "" },
       setBreakInterval: (interval) => set({ breakInterval: interval }),
     }),
     {

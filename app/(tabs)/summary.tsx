@@ -23,8 +23,8 @@ export default function SummaryScreen() {
   const { summary, clearSummary } = useSummaryStore((state) => state);
 
   const handlePressDelete = async () => {
-    clearSummary();
     await cancelBreakNotification();
+    clearSummary();
   };
 
   return (

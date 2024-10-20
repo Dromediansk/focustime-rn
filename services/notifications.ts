@@ -86,50 +86,64 @@ export const scheduleBreakNotification = async () => {
     },
   });
 
-  return pushNotificationId;
+  useFocusStore.setState({
+    breakInterval: {
+      ...breakInterval,
+      currentNotificationId: pushNotificationId,
+    },
+  });
+
+  console.log(
+    `Notification scheduled with ID: ${pushNotificationId} and interval: ${breakInterval.interval * 60} seconds`
+  );
 };
 
 export const addBreakNotificationListener = () =>
-  Notifications.addNotificationResponseReceivedListener(async (response) => {
+  Notifications.addNotificationResponseReceivedListener((response) => {
     try {
-      const { breakInterval, setBreakInterval, setTimerState } =
-        useFocusStore.getState();
+      const { breakInterval, setTimerState } = useFocusStore.getState();
 
       if (!breakInterval.currentNotificationId) {
         throw new Error("Technical error occured.");
       }
 
       if (response.actionIdentifier === ActionIdentifier.PAUSE) {
-        await Promise.all([
-          cancelBreakNotification(),
-          dismissBreakNotification(),
-        ]);
-        setBreakInterval({ ...breakInterval, currentNotificationId: "" });
+        cancelBreakNotification();
         setTimerState(TimerState.PAUSED);
-      } else if (response.actionIdentifier === ActionIdentifier.IGNORE) {
-        await dismissBreakNotification();
       }
+      dismissBreakNotification();
     } catch (error) {
       console.error(error);
     }
   });
 
 export const cancelBreakNotification = async () => {
-  const { breakInterval } = useFocusStore.getState();
+  try {
+    const { breakInterval } = useFocusStore.getState();
 
-  if (breakInterval.currentNotificationId) {
-    await Notifications.cancelScheduledNotificationAsync(
-      breakInterval.currentNotificationId
-    );
+    if (breakInterval.currentNotificationId) {
+      await Notifications.cancelScheduledNotificationAsync(
+        breakInterval.currentNotificationId
+      );
+      useFocusStore.setState({
+        breakInterval: { ...breakInterval, currentNotificationId: "" },
+      });
+    }
+  } catch (error) {
+    console.error("Error cancelling break notification:", error);
   }
 };
 
 export const dismissBreakNotification = async () => {
-  const { breakInterval } = useFocusStore.getState();
+  try {
+    const { breakInterval } = useFocusStore.getState();
 
-  if (breakInterval.currentNotificationId) {
-    await Notifications.dismissNotificationAsync(
-      breakInterval.currentNotificationId
-    );
+    if (breakInterval.currentNotificationId) {
+      await Notifications.dismissNotificationAsync(
+        breakInterval.currentNotificationId
+      );
+    }
+  } catch (error) {
+    console.error("Error dismissing break notification:", error);
   }
 };
