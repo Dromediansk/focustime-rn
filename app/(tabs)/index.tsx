@@ -70,7 +70,7 @@ export default function App() {
             mode="flat"
             value={focusSubject}
             onChange={(e) => setFocusSubject(e.nativeEvent.text)}
-            placeholder="i.e. deep work, exercise or meditating"
+            placeholder="deep work, exercise, meditating.."
             placeholderTextColor={theme.colors?.onSurfaceDisabled}
           />
           <Text style={styles.breakText}>Break interval in minutes:</Text>
