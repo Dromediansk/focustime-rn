@@ -12,7 +12,7 @@ type SummaryStore = {
 
 const handleAddSummaryItem = (state: SummaryStore, item: SummaryItem) => {
   const existingItemIndex = state.summary.findIndex(
-    (i) => i.title.toLowerCase() === item.title.toLowerCase()
+    (i) => i.title.trim().toLowerCase() === item.title.trim().toLowerCase()
   );
 
   if (existingItemIndex !== -1) {
